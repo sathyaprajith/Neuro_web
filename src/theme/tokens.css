@@ -1,0 +1,43 @@
+:root {
+  --bg-base: #fbf7f1;
+  --bg-elevated: #ffffff;
+  --bg-sunken: #f3ede4;
+  --ink-primary: #241c1a;
+  --ink-secondary: #6b5d56;
+  --coral: #e8674a;
+  --amber: #e8a23d;
+  --sage: #5c8374;
+  --deep-plum: #3d2b3f;
+  --hairline: rgba(36, 28, 26, 0.12);
+  --hairline-strong: rgba(36, 28, 26, 0.22);
+  --coral-soft: rgba(232, 103, 74, 0.14);
+  --sage-soft: rgba(92, 131, 116, 0.14);
+  --amber-soft: rgba(232, 162, 61, 0.16);
+  --glow-a: rgba(232, 103, 74, 0.16);
+  --glow-b: rgba(92, 131, 116, 0.13);
+  --glass: rgba(251, 247, 241, 0.72);
+  --shadow-card: 0 1px 2px rgba(36, 28, 26, 0.05), 0 12px 32px -18px rgba(36, 28, 26, 0.28);
+  color-scheme: light;
+}
+
+.dark {
+  --bg-base: #1a1512;
+  --bg-elevated: #241e1a;
+  --bg-sunken: #14100e;
+  --ink-primary: #f5ede6;
+  --ink-secondary: #b8a99e;
+  --coral: #f0805f;
+  --amber: #f0b860;
+  --sage: #7ba894;
+  --deep-plum: #6b4e6e;
+  --hairline: rgba(245, 237, 230, 0.13);
+  --hairline-strong: rgba(245, 237, 230, 0.26);
+  --coral-soft: rgba(240, 128, 95, 0.15);
+  --sage-soft: rgba(123, 168, 148, 0.14);
+  --amber-soft: rgba(240, 184, 96, 0.14);
+  --glow-a: rgba(240, 128, 95, 0.13);
+  --glow-b: rgba(123, 168, 148, 0.11);
+  --glass: rgba(26, 21, 18, 0.66);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35), 0 18px 44px -20px rgba(0, 0, 0, 0.65);
+  color-scheme: dark;
+}
