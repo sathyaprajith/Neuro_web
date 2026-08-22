@@ -1,129 +1,173 @@
 export type SignalStream = "Behavioral" | "Biological" | "Cognitive";
 
-export interface SignalMetric {
-  label: string;
-  value: string;
-  caveat?: string;
-}
-
 export interface Signal {
   id: string;
   index: string;
+  label: string;
   name: string;
   stream: SignalStream;
+  focus: string;
   short: string;
   description: string;
-  metrics: SignalMetric[];
+  tags: string[];
 }
 
 export const signals: Signal[] = [
   {
-    id: "gaze",
+    id: "motion",
     index: "01",
-    name: "Gaze Dynamics",
-    stream: "Cognitive",
-    short: "Where attention goes, and how it gets there.",
+    label: "Motion",
+    name: "Behavioral Signal Analysis",
+    stream: "Behavioral",
+    focus: "ASD Focus",
+    short: "Kinematics quantified, without observer bias.",
     description:
-      "Eye-tracking during naturalistic viewing captures how attention is deployed — fixation stability, saccade vigor, and the pull toward social versus non-social content. These patterns are measurable in minutes, without asking a single question, which makes them usable across development and across language backgrounds.",
-    metrics: [
-      {
-        label: "Cohort discrimination (ABIDE II)",
-        value: "AUC 0.71",
-        caveat: "95% CI 0.64–0.77 · n = 388",
-      },
-      {
-        label: "Test–retest reliability",
-        value: "ICC 0.83",
-        caveat: "Two sessions, 14 days apart",
-      },
-    ],
+      "Computer vision-driven pose estimation captures body kinematics, gait irregularities, and repetitive motion patterns. Quantified behavioral biomarkers enable early ASD screening and longitudinal tracking without observer bias.",
+    tags: ["Pose Estimation", "Kinematic Profiling", "Behavioral Markers"],
   },
   {
-    id: "motor",
+    id: "mri",
     index: "02",
-    name: "Motor Signatures",
-    stream: "Behavioral",
-    short: "Movement as a readable, quantifiable behavior.",
+    label: "MRI",
+    name: "Biological / Structural Analysis",
+    stream: "Biological",
+    focus: "Neuroimaging",
+    short: "Neuroimaging pipelines on clinically annotated cohorts.",
     description:
-      "Wrist-worn actigraphy and micro-movement analysis extract rhythm, regularity, and variability from ordinary days. A week of passive wear yields a rest–activity profile that correlates with circadian disruption and medication effects — signal that self-report consistently misses.",
-    metrics: [
-      {
-        label: "Rest–activity regularity",
-        value: "AUC 0.74",
-        caveat: "95% CI 0.68–0.79 · 7-day wear",
-      },
-      {
-        label: "Agreement vs. sleep lab",
-        value: "r = 0.79",
-        caveat: "Against polysomnography, n = 62",
-      },
-    ],
+      "Advanced neuroimaging pipelines extract cortical thickness profiles, volumetric biomarkers, and white matter tractography. Structural and functional MRI data drive AI models validated on annotated clinical cohorts.",
+    tags: ["Cortical Thickness", "Tractography", "Volumetric Biomarkers"],
   },
   {
-    id: "voice",
+    id: "speech",
     index: "03",
-    name: "Vocal Prosody",
-    stream: "Behavioral",
-    short: "How something is said carries its own data.",
+    label: "Speech",
+    name: "Cognitive & Thought Pattern Analysis",
+    stream: "Cognitive",
+    focus: "Schizophrenia Focus",
+    short: "A cognitive fingerprint built from speech.",
     description:
-      "Speech acoustics — pitch contour, pause structure, articulation rate — shift measurably with mood and neurodevelopmental state. Features are extracted on-device where possible; raw audio never leaves the device in our clinical pilots, and models are audited for accent and language bias before deployment.",
-    metrics: [
-      {
-        label: "Episode detection (depressive)",
-        value: "AUC 0.69",
-        caveat: "95% CI 0.61–0.76 · within-subject",
-      },
-      {
-        label: "Cross-language drift audit",
-        value: "Δ ≤ 0.04",
-        caveat: "English / Spanish / German subsets",
-      },
-    ],
+      "Prosodic analysis, semantic coherence scoring, and speech rate profiling construct a cognitive speech fingerprint. Disorganized thought patterns and language markers are extracted with NLP pipelines calibrated for psychiatric use.",
+    tags: ["Prosody Analysis", "Semantic Coherence", "NLP Profiling"],
   },
   {
-    id: "sleep",
+    id: "eye",
     index: "04",
-    name: "Sleep Architecture",
-    stream: "Biological",
-    short: "The night record most clinics never see.",
+    label: "Eye-Tracking",
+    name: "Early-Stage Cognitive Markers",
+    stream: "Cognitive",
+    focus: "Cognitive Screening",
+    short: "Gaze dynamics that track neurodevelopment.",
     description:
-      "Sleep stage structure is one of the most replicated physiological correlates of psychiatric conditions, yet it rarely enters routine evaluation. We fuse home-EEG with wearable-derived staging to estimate architecture at clinical grade — then report it alongside its uncertainty, because home recordings are noisier than lab ones.",
-    metrics: [
-      {
-        label: "Stage agreement vs. PSG",
-        value: "κ 0.71",
-        caveat: "4-class staging · n = 112 nights",
-      },
-      {
-        label: "Deep-sleep estimate error",
-        value: "±18 min",
-        caveat: "Median absolute, per night",
-      },
-    ],
+      "Saccadic velocity, fixation duration, and visual attention mapping reveal subtle cognitive anomalies invisible to clinical observation. Early-stage biomarkers derived from eye-tracking correlate with neurodevelopmental trajectories.",
+    tags: ["Saccadic Velocity", "Fixation Mapping", "Attention Profiling"],
   },
   {
-    id: "autonomic",
+    id: "eeg",
     index: "05",
-    name: "Autonomic Tone",
+    label: "EEG",
+    name: "Neural Oscillation Profiling",
     stream: "Biological",
-    short: "Heart-rate variability as a stress-system readout.",
+    focus: "Electrophysiology",
+    short: "Real-time neural dynamics, artifact-rejected.",
     description:
-      "HRV summarizes how the autonomic nervous system flexes under load. Fused with sleep and behavioral streams, it helps distinguish anxiety-driven arousal from circadian disruption — a differential that changes treatment. We report HRV features only when recording quality clears pre-registered thresholds.",
-    metrics: [
-      {
-        label: "Stress-state separation",
-        value: "AUC 0.72",
-        caveat: "95% CI 0.66–0.78 · daytime wear",
-      },
-      {
-        label: "Usable-recording threshold",
-        value: "≥ 18 h/day",
-        caveat: "Below this, feature withheld",
-      },
-    ],
+      "Alpha/beta band synchrony, P300 event-related potentials, and functional connectivity metrics quantify real-time neural dynamics. EEG signals are artifact-rejected and processed through validated psychiatric biomarker pipelines.",
+    tags: ["P300 Response", "Band Synchrony", "Connectivity Metrics"],
   },
 ];
 
 export function getSignal(id: string): Signal | undefined {
   return signals.find((s) => s.id === id);
 }
+
+export const impactStats = [
+  {
+    value: "1 in 36",
+    label: "children diagnosed with ASD",
+    sublabel: "CDC 2023 Surveillance Report",
+  },
+  {
+    value: "~24M",
+    label: "people affected by Schizophrenia worldwide",
+    sublabel: "WHO Global Mental Health Report",
+  },
+  {
+    value: "$1T+",
+    label: "annual global economic loss",
+    sublabel: "from neurological & psychiatric disorders",
+  },
+];
+
+export const philosophy = [
+  {
+    title: "Augment, Not Replace",
+    desc: "Our platform serves as a decision-support layer. Clinical specialists remain at the center of every diagnosis and treatment pathway. AI provides structured evidence; clinicians provide judgment.",
+  },
+  {
+    title: "Evidence-First",
+    desc: "Every signal modality integrated into our platform is grounded in peer-reviewed research. We do not deploy models without rigorous clinical validation and IRB-approved studies.",
+  },
+  {
+    title: "Signal Transparency",
+    desc: "We generate explainable signal reports — not black-box scores. Clinicians see exactly which signals contributed to a recommendation and why.",
+  },
+  {
+    title: "Longitudinal Tracking",
+    desc: "Neuropsychiatric care is not episodic. Our platform tracks patient signal profiles over time, enabling clinicians to detect subtle changes invisible to unaided clinical observation.",
+  },
+];
+
+export const missionQuote =
+  "Psychiatry remains one of the least instrumented domains in modern medicine. We are introducing structured signal layers — Behavioral, Biological, and Cognitive — to augment, not replace, specialist-led evaluation.";
+
+export interface Achievement {
+  date: string;
+  title: string;
+  description: string;
+}
+
+export const achievements: Achievement[] = [
+  {
+    date: "2026",
+    title: "MoU with Total Solution Rehabilitation Society",
+    description:
+      "MoU signed with Total Solution Rehabilitation Society. Signed by Dr. Pooja Jha Nair, General Secretary, enabling access to annotated clinical datasets and collaborative model development.",
+  },
+];
+
+export const partnerCategories = [
+  {
+    label: "Hospitals",
+    description:
+      "Leading tertiary care hospitals integrating AI-assisted psychiatric decision support into clinical workflows.",
+    partners: [{ name: "Coming soon", location: "-" }],
+  },
+  {
+    label: "Clinics",
+    description:
+      "Specialized psychiatric and neurodevelopmental clinics serving as primary deployment sites for early ASD and schizophrenia screening.",
+    partners: [
+      { name: "Total Solutions Rehabilitation Society", location: "Hyderabad, India" },
+      { name: "Tapadia Diagnostics Centre", location: "Hyderabad, India" },
+    ],
+  },
+  {
+    label: "Academic Research",
+    description:
+      "University research labs and academic institutions providing annotated clinical datasets, validation pipelines, and collaborative AI research.",
+    partners: [{ name: "Coming soon", location: "-" }],
+  },
+];
+
+export const contactInfo = {
+  email: "admin@neuroparadigm.in",
+  linkedin: "https://www.linkedin.com/company/neuroparadigmpvtltd/",
+  instagram: "https://www.instagram.com/neuroparadigm/",
+  address:
+    "Teleparadigm Towers, SY No 32/A & 32/E2, Near NGIT College, Uppal, Hyderabad, Telangana – 500088",
+  tagline: "Bridging Neuroscience & Clinical Intelligence",
+};
+
+export const galleryImages = Array.from({ length: 7 }, (_, n) => ({
+  src: `/images/gallery/img_${n + 1}.jpeg`,
+  alt: `Neuro Paradigm gallery photo ${n + 1}`,
+}));

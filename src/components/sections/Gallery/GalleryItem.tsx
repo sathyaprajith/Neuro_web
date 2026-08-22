@@ -15,50 +15,22 @@ export function GalleryItem({
         type="button"
         onClick={() => onOpen(entry)}
         className="absolute inset-0 h-full w-full cursor-zoom-in text-left"
-        aria-label={`Enlarge: ${entry.title}`}
+        aria-label={`Enlarge photo ${entry.id}`}
       >
-        <span className="absolute inset-0 block transition-transform duration-700 ease-out group-hover:scale-[1.04]">
-          <svg
-            viewBox="0 0 400 300"
-            preserveAspectRatio="xMidYMid slice"
-            className="absolute inset-0 h-full w-full"
-            aria-hidden
-          >
-            <defs>
-              <linearGradient id={`g-${entry.id}`} x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor={entry.hueA} />
-                <stop offset="100%" stopColor={entry.hueB} />
-              </linearGradient>
-            </defs>
-            <rect width="400" height="300" fill={`url(#g-${entry.id})`} />
-            <g fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="1">
-              {Array.from({ length: 7 }, (_, i) => (
-                <path
-                  key={i}
-                  d={`M-20 ${60 + i * 34} Q 100 ${20 + i * 36}, 200 ${70 + i * 32} T 420 ${50 + i * 34}`}
-                  opacity={0.5 - i * 0.05}
-                />
-              ))}
-            </g>
-            <g fill="rgba(255,255,255,0.8)">
-              {Array.from({ length: 14 }, (_, i) => (
-                <circle
-                  key={i}
-                  cx={((i * 97) % 380) + 10}
-                  cy={((i * 61) % 270) + 15}
-                  r={i % 3 === 0 ? 2.4 : 1.3}
-                  opacity="0.55"
-                />
-              ))}
-            </g>
-          </svg>
-        </span>
+        <img
+          src={entry.src}
+          alt={entry.alt}
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+        />
+        <span
+          aria-hidden
+          className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/25"
+        />
       </button>
-      <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent p-5 text-white">
-        <p className="font-display text-base font-medium">{entry.title}</p>
-        <p className="mt-1 max-w-md text-xs leading-relaxed text-white/75">
-          {entry.caption}
-        </p>
+      <figcaption className="pointer-events-none absolute top-3 right-3 rounded-full bg-black/45 px-2.5 py-1 font-mono text-[9px] tracking-widest text-white/85 uppercase backdrop-blur-sm">
+        NP · {String(entry.id).padStart(2, "0")}
       </figcaption>
     </figure>
   );

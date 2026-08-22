@@ -57,7 +57,7 @@ export function SignalDetails() {
                 {signal.stream}
               </span>
               <span className="ml-auto hidden max-w-[220px] text-right text-xs text-ink-soft lg:block">
-                {signal.short}
+                {signal.focus}
               </span>
               <ChevronDownIcon
                 className={cn(
@@ -78,27 +78,30 @@ export function SignalDetails() {
                   className="overflow-hidden"
                 >
                   <div className="grid gap-6 pb-8 pl-9 pr-1 sm:pl-12 md:grid-cols-[1.25fr_1fr] md:gap-10">
-                    <p className="text-[15px] leading-relaxed text-ink-soft">
-                      {signal.description}
-                    </p>
-                    <ul className="space-y-3">
-                      {signal.metrics.map((metric) => (
-                        <li
-                          key={metric.label}
-                          className="rounded-2xl border border-hairline bg-elevated p-4 shadow-card"
-                        >
-                          <p className="text-xs text-ink-soft">{metric.label}</p>
-                          <p className="mt-1 font-mono text-lg font-medium text-sage">
-                            {metric.value}
-                          </p>
-                          {metric.caveat && (
-                            <p className="mt-1 font-mono text-[10px] leading-relaxed text-ink-soft">
-                              {metric.caveat}
-                            </p>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
+                    <div>
+                      <p className="text-[15px] leading-relaxed text-ink-soft">
+                        {signal.description}
+                      </p>
+                      <ul className="mt-5 flex flex-wrap gap-2">
+                        {signal.tags.map((tag) => (
+                          <li
+                            key={tag}
+                            className="rounded-full border border-hairline bg-elevated px-3 py-1.5 font-mono text-[10px] tracking-wide text-ink-soft"
+                          >
+                            {tag}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="rounded-2xl border border-hairline bg-elevated p-5 shadow-card">
+                      <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-coral">
+                        Clinical focus
+                      </p>
+                      <p className="mt-2 font-display text-xl font-medium">{signal.focus}</p>
+                      <p className="mt-3 text-xs leading-relaxed text-ink-soft">
+                        Signal layer {signal.index} of 05 · {signal.label} stream
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
               )}

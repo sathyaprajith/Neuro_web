@@ -3,11 +3,14 @@ import { motion } from "framer-motion";
 import { usePrefersReducedMotion } from "../../../hooks/usePrefersReducedMotion";
 import { CheckIcon } from "../../ui/icons";
 
-const TOPICS = [
-  "Research collaboration",
-  "Clinical pilot inquiry",
-  "Press & speaking",
-  "Something else",
+const AFFILIATIONS = [
+  "Hospital / Clinical Network",
+  "Psychiatric or Neurodevelopmental Clinic",
+  "Academic / Research Institution",
+  "Independent Researcher",
+  "Freelance Consultant",
+  "Government Body",
+  "Other",
 ] as const;
 
 interface Errors {
@@ -33,11 +36,11 @@ export function ContactForm() {
     if (company) return;
 
     const next: Errors = {};
-    if (!name) next.name = "Please tell us your name.";
+    if (name.length < 2) next.name = "Name must be at least 2 characters.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-      next.email = "That email doesn't look right.";
+      next.email = "Please enter a valid email address.";
     if (message.length < 10)
-      next.message = "A sentence or two helps us route this well.";
+      next.message = "Message must be at least 10 characters.";
     setErrors(next);
     if (Object.keys(next).length > 0) return;
 
@@ -62,8 +65,8 @@ export function ContactForm() {
         </span>
         <h3 className="mt-5 font-display text-xl font-medium">Message received.</h3>
         <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink-soft">
-          We reply within two business days — usually sooner. No newsletters,
-          no drip campaigns.
+          Thank you for reaching out. The team reads everything and responds
+          as soon as possible — no marketing noise, only signal.
         </p>
         <button
           type="button"
@@ -83,8 +86,8 @@ export function ContactForm() {
       className="rounded-3xl border border-hairline bg-elevated p-7 shadow-card sm:p-8"
     >
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Name" name="name" error={errors.name} />
-        <Field label="Email" name="email" type="email" error={errors.email} />
+        <Field label="Full name" name="name" error={errors.name} />
+        <Field label="Email address" name="email" type="email" error={errors.email} />
       </div>
 
       <div className="mt-5 hidden" aria-hidden="true">
@@ -96,16 +99,16 @@ export function ContactForm() {
 
       <label className="mt-5 block">
         <span className="mb-1.5 block font-mono text-[10px] tracking-[0.22em] uppercase text-ink-soft">
-          Topic
+          Affiliation
         </span>
         <select
-          name="topic"
-          defaultValue={TOPICS[0]}
+          name="affiliation"
+          defaultValue={AFFILIATIONS[2]}
           className="w-full rounded-xl border border-hairline bg-base px-4 py-3 text-sm outline-none transition-colors focus:border-coral"
         >
-          {TOPICS.map((topic) => (
-            <option key={topic} value={topic}>
-              {topic}
+          {AFFILIATIONS.map((option) => (
+            <option key={option} value={option}>
+              {option}
             </option>
           ))}
         </select>
@@ -118,7 +121,7 @@ export function ContactForm() {
         <textarea
           name="message"
           rows={4}
-          placeholder="What are you working on?"
+          placeholder="Tell us about your research interests, partnership inquiry, or anything else..."
           className="w-full resize-none rounded-xl border border-hairline bg-base px-4 py-3 text-sm outline-none transition-colors placeholder:text-ink-soft/50 focus:border-coral"
         />
         {errors.message && (

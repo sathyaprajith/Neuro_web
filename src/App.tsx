@@ -3,7 +3,7 @@ import { Navbar } from "./components/layout/Navbar";
 import { Footer } from "./components/layout/Footer";
 import { Hero } from "./components/sections/Hero/Hero";
 import { HomeAbout } from "./components/sections/HomeAbout/HomeAbout";
-import { Patents } from "./components/sections/Patents/Patents";
+import { Achievements } from "./components/sections/Achievements/Achievements";
 import { Partners } from "./components/sections/Partners/Partners";
 import { Gallery } from "./components/sections/Gallery/Gallery";
 import { Contact } from "./components/sections/Contact/Contact";
@@ -21,7 +21,7 @@ export default function App() {
       <main>
         <Hero />
         <HomeAbout />
-        <Patents />
+        <Achievements />
         <Partners />
         <Gallery />
         <Contact />

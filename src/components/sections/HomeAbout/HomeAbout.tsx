@@ -8,25 +8,25 @@ export function HomeAbout() {
   return (
     <section
       id="about"
-      aria-label="About NeuroParadigm"
+      aria-label="About Neuro Paradigm"
       className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32"
     >
       <SectionHeader
-        eyebrow="Mission"
+        eyebrow="About Us"
         title={
           <>
-            Understanding, assembled{" "}
-            <em className="not-italic text-coral">piece by piece</em>.
+            Three signal layers,{" "}
+            <em className="not-italic text-coral">one clinical picture</em>.
           </>
         }
-        lede="One core method — multi-modal signal fusion — grows into a family of clinical signals. The way our helix branches is the way our research works."
+        lede="A multi-modal AI platform that fuses structured clinical signals across three complementary dimensions of neuropsychiatric evaluation — Behavioral, Biological, and Cognitive."
       />
 
-      <Reveal className="mt-14" delay={0.05}>
+      <div className="mt-16">
         <MissionNarrative />
-      </Reveal>
+      </div>
 
-      <div className="mt-20 grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:items-center">
+      <div className="mt-24 grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:items-center">
         <Reveal>
           <h3 className="font-display text-2xl font-medium tracking-tight sm:text-3xl">
             Many weak signals. One strong picture.
@@ -38,9 +38,10 @@ export function HomeAbout() {
             identical in a 50-minute consult.
           </p>
           <p className="mt-4 text-sm leading-relaxed text-ink-soft">
-            The visualization here is a prototype sketch of that fusion: five
-            streams converging into one connected graph, the way our platform
-            assembles evidence before it ever reaches a clinician's screen.
+            The visualization here is a prototype sketch of that fusion:
+            multiple streams converging into one connected graph, the way our
+            platform assembles evidence before it ever reaches a clinician's
+            screen.
           </p>
         </Reveal>
         <Reveal delay={0.08}>
@@ -51,14 +52,15 @@ export function HomeAbout() {
       <div className="mt-24">
         <Reveal>
           <p className="font-mono text-[11px] tracking-[0.28em] uppercase text-coral">
-            Research outputs
+            Signal layers
           </p>
           <h3 className="mt-4 max-w-2xl font-display text-3xl font-medium tracking-tight text-balance sm:text-4xl">
-            Five signal families, reported with their confidence attached.
+            Five research streams, one fused platform.
           </h3>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-soft">
-            Each branch on the helix above corresponds to one of these. Numbers
-            are cohort-level estimates — not promises about any individual.
+            Each branch on the helix above corresponds to one of these. Every
+            modality is grounded in peer-reviewed research and validated on
+            annotated clinical cohorts.
           </p>
         </Reveal>
         <Reveal className="mt-10" delay={0.06}>

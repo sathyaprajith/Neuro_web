@@ -7,11 +7,12 @@ import { useTheme } from "../../../theme/useTheme";
 import { signals, type Signal } from "../../../data/signals";
 import { HelixBranch } from "./HelixBranch";
 
-const HEIGHT = 5.4;
-const RADIUS = 1.12;
-const TURNS = 2.35;
-const NODES = 108;
-const RUNG_STRIDE = 5;
+const HEIGHT = 5.6;
+const RADIUS = 1.08;
+const TURNS = 2.3;
+const NODES = 126;
+const RUNG_STRIDE = 3;
+const PHASE_B = Math.PI * 0.74;
 
 interface BranchAnchor {
   signal: Signal;
@@ -19,25 +20,35 @@ interface BranchAnchor {
   label: THREE.Vector3;
 }
 
+function strandPoint(
+  t: number,
+  phase: number,
+): THREE.Vector3 {
+  const angle = t * TURNS * Math.PI * 2 + phase;
+  const breathe =
+    1 +
+    0.05 * Math.sin(t * Math.PI * 7.3 + phase * 0.6) +
+    0.02 * Math.sin(t * Math.PI * 13.1 - phase);
+  const r = RADIUS * breathe;
+  const swayX = 0.17 * Math.sin(t * Math.PI * 1.65 + 1.25);
+  const swayZ = 0.13 * Math.sin(t * Math.PI * 1.2 - 0.75);
+  return new THREE.Vector3(
+    Math.cos(angle) * r + swayX,
+    (t - 0.5) * HEIGHT,
+    Math.sin(angle) * r + swayZ,
+  );
+}
+
 function buildBranchAnchors(): BranchAnchor[] {
   return signals.map((signal, i) => {
     const t = 0.8 - i * 0.15;
     const angle = t * TURNS * Math.PI * 2;
-    const y = (t - 0.5) * HEIGHT;
-    const node = new THREE.Vector3(
-      Math.cos(angle) * RADIUS,
-      y,
-      Math.sin(angle) * RADIUS,
-    );
+    const node = strandPoint(t, 0);
+    const outward = new THREE.Vector3(Math.cos(angle), 0, Math.sin(angle));
     const side = i % 2 === 0 ? 1 : -1;
-    const outward = new THREE.Vector3(
-      Math.cos(angle) * side,
-      0,
-      Math.sin(angle) * side,
-    );
     const label = node
       .clone()
-      .add(outward.multiplyScalar(RADIUS + 0.95))
+      .add(outward.multiplyScalar((RADIUS + 0.95) * side))
       .add(new THREE.Vector3(0, i % 2 === 0 ? 0.1 : -0.1, 0));
     return { signal, node, label };
   });
@@ -56,7 +67,8 @@ export default function Helix({ progress, reduced }: HelixProps) {
   const outer = useRef<THREE.Group>(null!);
   const nodesA = useRef<THREE.InstancedMesh>(null!);
   const nodesB = useRef<THREE.InstancedMesh>(null!);
-  const rungs = useRef<THREE.InstancedMesh>(null!);
+  const pairsOne = useRef<THREE.InstancedMesh>(null!);
+  const pairsTwo = useRef<THREE.InstancedMesh>(null!);
 
   const idle = useRef(0);
   const appear = useRef(reduced ? 1 : 0.8);
@@ -73,69 +85,66 @@ export default function Helix({ progress, reduced }: HelixProps) {
     const b: THREE.Vector3[] = [];
     for (let i = 0; i < NODES; i++) {
       const t = i / (NODES - 1);
-      const angle = t * TURNS * Math.PI * 2;
-      const y = (t - 0.5) * HEIGHT;
-      a.push(
-        new THREE.Vector3(Math.cos(angle) * RADIUS, y, Math.sin(angle) * RADIUS),
-      );
-      b.push(
-        new THREE.Vector3(
-          Math.cos(angle + Math.PI) * RADIUS,
-          y,
-          Math.sin(angle + Math.PI) * RADIUS,
-        ),
-      );
+      a.push(strandPoint(t, 0));
+      b.push(strandPoint(t, PHASE_B));
     }
-    const rungPairs: Array<[THREE.Vector3, THREE.Vector3]> = [];
-    for (let i = 4; i < NODES - 3; i += RUNG_STRIDE) {
-      rungPairs.push([a[i]!, b[i]!]);
-    }
+    const rungIdx: number[] = [];
+    for (let i = 3; i < NODES - 3; i += RUNG_STRIDE) rungIdx.push(i);
+
     return {
       a,
       b,
-      rungPairs,
-      curveA: new THREE.CatmullRomCurve3(a),
-      curveB: new THREE.CatmullRomCurve3(b),
-      tubeA: new THREE.TubeGeometry(new THREE.CatmullRomCurve3(a), 200, 0.05, 10, false),
-      tubeB: new THREE.TubeGeometry(new THREE.CatmullRomCurve3(b), 200, 0.05, 10, false),
-      sphere: new THREE.SphereGeometry(0.078, 10, 8),
-      cylinder: new THREE.CylinderGeometry(0.016, 0.016, 1, 6, 1),
+      rungIdx,
+      tubeA: new THREE.TubeGeometry(new THREE.CatmullRomCurve3(a), 240, 0.042, 10, false),
+      tubeB: new THREE.TubeGeometry(new THREE.CatmullRomCurve3(b), 240, 0.042, 10, false),
+      sphere: new THREE.SphereGeometry(0.062, 10, 8),
+      cylinder: new THREE.CylinderGeometry(0.02, 0.02, 1, 7, 1),
     };
   }, []);
 
-  const mats = useMemo(() => ({
-    strandA: new THREE.MeshStandardMaterial({
-      color: "#e8674a",
-      emissive: "#e8674a",
-      emissiveIntensity: 0.5,
-      roughness: 0.34,
-      metalness: 0.12,
+  const mats = useMemo(
+    () => ({
+      strandA: new THREE.MeshStandardMaterial({
+        color: "#e8674a",
+        emissive: "#e8674a",
+        emissiveIntensity: 0.42,
+        roughness: 0.42,
+        metalness: 0.1,
+      }),
+      strandB: new THREE.MeshStandardMaterial({
+        color: "#5c8374",
+        emissive: "#5c8374",
+        emissiveIntensity: 0.42,
+        roughness: 0.42,
+        metalness: 0.1,
+      }),
+      pairA: new THREE.MeshStandardMaterial({
+        color: "#e8a23d",
+        emissive: "#e8a23d",
+        emissiveIntensity: 0.22,
+        roughness: 0.5,
+        metalness: 0.05,
+      }),
+      pairB: new THREE.MeshStandardMaterial({
+        color: "#3d2b3f",
+        emissive: "#3d2b3f",
+        emissiveIntensity: 0.16,
+        roughness: 0.55,
+        metalness: 0.05,
+      }),
     }),
-    strandB: new THREE.MeshStandardMaterial({
-      color: "#5c8374",
-      emissive: "#5c8374",
-      emissiveIntensity: 0.5,
-      roughness: 0.34,
-      metalness: 0.12,
-    }),
-    rung: new THREE.MeshStandardMaterial({
-      color: "#3d2b3f",
-      emissive: "#3d2b3f",
-      emissiveIntensity: 0.18,
-      roughness: 0.5,
-      metalness: 0.05,
-      transparent: true,
-      opacity: 0.85,
-    }),
-  }), []);
+    [],
+  );
 
   useEffect(() => {
     mats.strandA.color.set(coralHex);
     mats.strandA.emissive.set(coralHex);
     mats.strandB.color.set(sageHex);
     mats.strandB.emissive.set(sageHex);
-    mats.rung.color.set(dark ? "#b9a7bd" : "#6b5570");
-    mats.rung.emissive.set(dark ? "#6b4e6e" : "#3d2b3f");
+    mats.pairA.color.set(dark ? "#f0b860" : "#e8a23d");
+    mats.pairA.emissive.set(dark ? "#f0b860" : "#e8a23d");
+    mats.pairB.color.set(dark ? "#b9a7bd" : "#6b5570");
+    mats.pairB.emissive.set(dark ? "#6b4e6e" : "#3d2b3f");
   }, [coralHex, sageHex, dark, mats]);
 
   useEffect(() => {
@@ -150,34 +159,57 @@ export default function Helix({ progress, reduced }: HelixProps) {
   useLayoutEffect(() => {
     const dummy = new THREE.Object3D();
     const up = new THREE.Vector3(0, 1, 0);
+    const dir = new THREE.Vector3();
+
+    const placeSegment = (
+      mesh: THREE.InstancedMesh,
+      index: number,
+      from: THREE.Vector3,
+      to: THREE.Vector3,
+    ) => {
+      dir.copy(to).sub(from);
+      const len = dir.length();
+      dummy.position.copy(from).add(to).multiplyScalar(0.5);
+      dummy.quaternion.setFromUnitVectors(up, dir.normalize());
+      dummy.scale.set(1, len, 1);
+      dummy.updateMatrix();
+      mesh.setMatrixAt(index, dummy.matrix);
+    };
 
     geo.a.forEach((p, i) => {
+      const t = i / (NODES - 1);
+      const taper = 0.62 + 0.38 * Math.sin(t * Math.PI);
+      const accent = i % 11 === 0 ? 1.35 : 1;
       dummy.position.copy(p);
       dummy.quaternion.identity();
-      dummy.scale.setScalar(i % 9 === 0 ? 1.55 : 1);
+      dummy.scale.setScalar(taper * accent);
       dummy.updateMatrix();
       nodesA.current.setMatrixAt(i, dummy.matrix);
     });
     geo.b.forEach((p, i) => {
+      const t = i / (NODES - 1);
+      const taper = 0.62 + 0.38 * Math.sin(t * Math.PI);
+      const accent = i % 11 === 5 ? 1.35 : 1;
       dummy.position.copy(p);
       dummy.quaternion.identity();
-      dummy.scale.setScalar(i % 9 === 4 ? 1.55 : 1);
+      dummy.scale.setScalar(taper * accent);
       dummy.updateMatrix();
       nodesB.current.setMatrixAt(i, dummy.matrix);
     });
-    geo.rungPairs.forEach(([pa, pb], i) => {
-      const dir = pb.clone().sub(pa);
-      const len = dir.length();
-      dummy.position.copy(pa).add(pb).multiplyScalar(0.5);
-      dummy.quaternion.setFromUnitVectors(up, dir.normalize());
-      dummy.scale.set(1, len, 1);
-      dummy.updateMatrix();
-      rungs.current.setMatrixAt(i, dummy.matrix);
+
+    geo.rungIdx.forEach((idx, k) => {
+      const pa = geo.a[idx]!;
+      const pb = geo.b[idx]!;
+      const mid = pa.clone().lerp(pb, 0.5);
+      const flip = k % 2 === 1;
+      placeSegment(flip ? pairsTwo.current : pairsOne.current, k, pa, mid);
+      placeSegment(flip ? pairsOne.current : pairsTwo.current, k, mid, pb);
     });
 
     nodesA.current.instanceMatrix.needsUpdate = true;
     nodesB.current.instanceMatrix.needsUpdate = true;
-    rungs.current.instanceMatrix.needsUpdate = true;
+    pairsOne.current.instanceMatrix.needsUpdate = true;
+    pairsTwo.current.instanceMatrix.needsUpdate = true;
   }, [geo]);
 
   useFrame((_, delta) => {
@@ -202,38 +234,31 @@ export default function Helix({ progress, reduced }: HelixProps) {
   });
 
   const branches = useMemo(buildBranchAnchors, []);
+  const rungCount = geo.rungIdx.length;
 
   return (
     <group ref={outer}>
       <group ref={spin}>
         <mesh geometry={geo.tubeA} material={mats.strandA} />
         <mesh geometry={geo.tubeB} material={mats.strandB} />
-        <instancedMesh
-          ref={nodesA}
-          args={[geo.sphere, mats.strandA, NODES]}
-        />
-        <instancedMesh
-          ref={nodesB}
-          args={[geo.sphere, mats.strandB, NODES]}
-        />
-        <instancedMesh
-          ref={rungs}
-          args={[geo.cylinder, mats.rung, geo.rungPairs.length]}
-        />
+        <instancedMesh ref={nodesA} args={[geo.sphere, mats.strandA, NODES]} />
+        <instancedMesh ref={nodesB} args={[geo.sphere, mats.strandB, NODES]} />
+        <instancedMesh ref={pairsOne} args={[geo.cylinder, mats.pairA, rungCount]} />
+        <instancedMesh ref={pairsTwo} args={[geo.cylinder, mats.pairB, rungCount]} />
         <Sparkles
-          count={64}
-          scale={[4.6, 6.6, 4.6]}
-          size={2}
-          speed={0.24}
-          opacity={0.45}
+          count={56}
+          scale={[4.6, 6.8, 4.6]}
+          size={1.9}
+          speed={0.22}
+          opacity={0.4}
           color={coralHex}
         />
         <Sparkles
-          count={40}
-          scale={[5.2, 7.2, 5.2]}
-          size={1.6}
-          speed={0.18}
-          opacity={0.35}
+          count={36}
+          scale={[5.2, 7.4, 5.2]}
+          size={1.5}
+          speed={0.16}
+          opacity={0.32}
           color={sageHex}
         />
         {branches.map((branch) => (

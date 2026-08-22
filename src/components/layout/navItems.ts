@@ -1,6 +1,6 @@
 export const NAV_ITEMS = [
   { id: "about", label: "About" },
-  { id: "patents", label: "Patents" },
+  { id: "achievements", label: "Achievements" },
   { id: "partners", label: "Partners" },
   { id: "gallery", label: "Gallery" },
   { id: "contact", label: "Contact" },

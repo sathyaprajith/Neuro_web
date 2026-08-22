@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { usePrefersReducedMotion } from "../../../hooks/usePrefersReducedMotion";
 
-const WORD = "NEUROPARADIGM".split("");
+const WORD = "NEURO PARADIGM".split("");
 
 const container = {
   hidden: {},
@@ -28,7 +28,7 @@ export function HeroTitle() {
 
   return (
     <div className="relative z-10 flex h-full w-full flex-col items-center justify-center px-6 text-center">
-      <h1 className="sr-only">NeuroParadigm</h1>
+      <h1 className="sr-only">Neuro Paradigm</h1>
       <motion.p
         aria-hidden
         className="font-display text-[clamp(2.6rem,9vw,7.5rem)] leading-[1.02] font-medium tracking-[-0.02em]"
@@ -49,3 +49,4 @@ export function HeroTitle() {
     </div>
   );
 }
+

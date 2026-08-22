@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "../ui/cn";
 import { MenuIcon, MoonIcon, SunIcon, CloseIcon } from "../ui/icons";
@@ -52,9 +52,9 @@ export function Navbar() {
           href="#home"
           onClick={goHome}
           className="font-display text-lg font-semibold tracking-tight"
-          aria-label="NeuroParadigm — back to top"
+          aria-label="Neuro Paradigm â€” back to top"
         >
-          NeuroParadigm<span className="text-coral">.</span>
+          Neuro Paradigm<span className="text-coral">.</span>
         </a>
 
         <div className="hidden items-center gap-7 md:flex">
@@ -146,3 +146,5 @@ export function Navbar() {
     </header>
   );
 }
+
+

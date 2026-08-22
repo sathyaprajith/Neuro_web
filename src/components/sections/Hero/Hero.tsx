@@ -1,4 +1,4 @@
-import {
+﻿import {
   Suspense,
   lazy,
   useCallback,
@@ -67,7 +67,7 @@ export function Hero() {
     <>
       <section
         id="home"
-        aria-label="NeuroParadigm"
+        aria-label="Neuro Paradigm"
         className="relative flex h-svh flex-col"
       >
         <HeroTitle />
@@ -301,3 +301,4 @@ function StoryCounter({
     </div>
   );
 }
+

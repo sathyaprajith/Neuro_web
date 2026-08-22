@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+﻿import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { usePrefersReducedMotion } from "../../../hooks/usePrefersReducedMotion";
 import { PinIcon } from "../../ui/icons";
@@ -59,7 +59,7 @@ export function LocationMap() {
             letterSpacing="2"
             fill="var(--ink-secondary)"
           >
-            WILLAMETTE RIVER
+            HYDERABAD Â· TELANGANA
           </text>
         </svg>
 
@@ -80,7 +80,7 @@ export function LocationMap() {
 
       <div className="absolute bottom-4 left-4 flex items-center gap-3 rounded-full border border-hairline bg-glass px-4 py-2 backdrop-blur-md">
         <span className="font-mono text-[10px] tracking-wide text-ink-soft">
-          Pilot network HQ · Portland, OR
+          Pilot network HQ Â· Portland, OR
         </span>
         <button
           type="button"
@@ -93,3 +93,4 @@ export function LocationMap() {
     </div>
   );
 }
+

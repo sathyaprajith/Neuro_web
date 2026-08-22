@@ -1,4 +1,5 @@
 import { NAV_ITEMS } from "./navItems";
+import { contactInfo } from "../../data/signals";
 
 export function Footer() {
   return (
@@ -6,13 +7,40 @@ export function Footer() {
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-8 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
           <p className="font-display text-xl font-semibold tracking-tight">
-            NeuroParadigm<span className="text-coral">.</span>
+            Neuro Paradigm<span className="text-coral">.</span>
           </p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink-soft">
-            Science that shows its work. Multi-modal signal fusion for
-            psychiatry and neurodevelopmental care — honest about confidence,
-            built to augment clinicians.
+            AI-assisted clinical decision support for psychiatry and
+            neurodevelopmental care — augmenting specialists, never replacing
+            them.
           </p>
+          <div className="mt-5 flex gap-3">
+            <a
+              href={`mailto:${contactInfo.email}`}
+              aria-label="Email Neuro Paradigm"
+              className="grid h-9 w-9 place-items-center rounded-full border border-hairline font-mono text-[11px] text-ink-soft transition-colors hover:border-coral hover:text-coral"
+            >
+              @
+            </a>
+            <a
+              href={contactInfo.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Neuro Paradigm on LinkedIn"
+              className="grid h-9 w-9 place-items-center rounded-full border border-hairline font-mono text-[11px] text-ink-soft transition-colors hover:border-coral hover:text-coral"
+            >
+              in
+            </a>
+            <a
+              href={contactInfo.instagram}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Neuro Paradigm on Instagram"
+              className="grid h-9 w-9 place-items-center rounded-full border border-hairline font-mono text-[11px] text-ink-soft transition-colors hover:border-coral hover:text-coral"
+            >
+              ig
+            </a>
+          </div>
         </div>
         <nav aria-label="Footer">
           <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-ink-soft">
@@ -38,20 +66,20 @@ export function Footer() {
           <ul className="mt-4 space-y-2.5 text-sm text-ink-soft">
             <li>
               <a
-                href="mailto:hello@neuroparadigm.health"
+                href={`mailto:${contactInfo.email}`}
                 className="transition-colors hover:text-coral"
               >
-                hello@neuroparadigm.health
+                {contactInfo.email}
               </a>
             </li>
-            <li>Pilot network HQ — Portland, OR</li>
+            <li>Teleparadigm Towers, Uppal, Hyderabad, Telangana – 500088</li>
           </ul>
         </div>
       </div>
       <div className="border-t border-hairline">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-5 py-5 font-mono text-[11px] tracking-wide text-ink-soft sm:flex-row sm:px-8">
-          <p>© 2026 NeuroParadigm Research</p>
-          <p>Built for specialists, with humility.</p>
+          <p>© {new Date().getFullYear()} Neuro Paradigm. All rights reserved.</p>
+          <p>{contactInfo.tagline}</p>
         </div>
       </div>
     </footer>

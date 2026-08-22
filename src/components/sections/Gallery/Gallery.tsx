@@ -23,7 +23,7 @@ export function Gallery() {
               <em className="not-italic text-coral">the work itself</em>.
             </>
           }
-          lede="Datasets, clinics, and whiteboards — the unglamorous middle of rigorous research."
+          lede="A glimpse into our team, events, and the real-world impact of our research."
         />
 
         <Reveal className="mt-14" delay={0.05}>

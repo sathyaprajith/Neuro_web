@@ -1,52 +1,16 @@
 export interface GalleryEntry {
   id: number;
-  title: string;
-  caption: string;
-  hueA: string;
-  hueB: string;
+  src: string;
+  alt: string;
   span: string;
 }
 
 export const GALLERY_ENTRIES: GalleryEntry[] = [
-  {
-    id: 1,
-    title: "ABIDE preprocessing sprint",
-    caption:
-      "Versioned fMRI derivatives from the ABIDE II release, checked end-to-end by our Global Scout pipeline.",
-    hueA: "#e8674a",
-    hueB: "#3d2b3f",
-    span: "md:col-span-2 md:row-span-2",
-  },
-  {
-    id: 2,
-    title: "Actigraphy deployment kit",
-    caption: "Seven-day wear kits, prepped for pilot families.",
-    hueA: "#5c8374",
-    hueB: "#241e1a",
-    span: "",
-  },
-  {
-    id: 3,
-    title: "Clinician co-design session",
-    caption: "Confidence dials, argued about for two hours.",
-    hueA: "#e8a23d",
-    hueB: "#6b5d56",
-    span: "",
-  },
-  {
-    id: 4,
-    title: "EEG cap fitting day",
-    caption: "Home-EEG onboarding at a partner clinic.",
-    hueA: "#7ba894",
-    hueB: "#3d2b3f",
-    span: "",
-  },
-  {
-    id: 5,
-    title: "Model card review",
-    caption: "Every deployment ships its calibration report.",
-    hueA: "#e8674a",
-    hueB: "#5c8374",
-    span: "md:col-span-2",
-  },
+  { id: 1, src: "/images/gallery/img_1.jpeg", alt: "Neuro Paradigm — team moment", span: "md:col-span-2 md:row-span-2" },
+  { id: 2, src: "/images/gallery/img_2.jpeg", alt: "Neuro Paradigm — event", span: "" },
+  { id: 3, src: "/images/gallery/img_3.jpeg", alt: "Neuro Paradigm — field work", span: "" },
+  { id: 4, src: "/images/gallery/img_4.jpeg", alt: "Neuro Paradigm — collaboration", span: "" },
+  { id: 5, src: "/images/gallery/img_5.jpeg", alt: "Neuro Paradigm — session", span: "" },
+  { id: 6, src: "/images/gallery/img_6.jpeg", alt: "Neuro Paradigm — on site", span: "" },
+  { id: 7, src: "/images/gallery/img_7.jpeg", alt: "Neuro Paradigm — milestone", span: "md:col-span-2" },
 ];

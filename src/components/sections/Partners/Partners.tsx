@@ -1,21 +1,16 @@
 import { SectionHeader } from "../../ui/SectionHeader";
 import { Reveal } from "../../ui/Reveal";
 import { usePrefersReducedMotion } from "../../../hooks/usePrefersReducedMotion";
+import { partnerCategories } from "../../../data/signals";
 
-const PARTNERS = [
-  { name: "Meridian Children's Health", type: "Clinical network" },
-  { name: "Alder Research Alliance", type: "Academic consortium" },
-  { name: "Northgate Clinic Network", type: "Psychiatry group" },
-  { name: "Veritas University Lab", type: "Computational neuroscience" },
-  { name: "Bluepine Data Trust", type: "Data governance" },
-  { name: "Cascade Neuro Institute", type: "Neurodevelopment" },
-  { name: "Harborview Analytics", type: "Health informatics" },
-  { name: "OpenSignal Foundation", type: "Open science funder" },
-] as const;
+const MARQUEE_NAMES = [
+  "Total Solutions Rehabilitation Society",
+  "Tapadia Diagnostics Centre",
+];
 
 export function Partners() {
   const reduced = usePrefersReducedMotion();
-  const row = [...PARTNERS, ...PARTNERS];
+  const row = [...MARQUEE_NAMES, ...MARQUEE_NAMES, ...MARQUEE_NAMES, ...MARQUEE_NAMES];
 
   return (
     <section
@@ -26,29 +21,39 @@ export function Partners() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader
           align="center"
-          eyebrow="Partners"
+          eyebrow="Strategic Partners"
           title={
             <>
-              Built alongside clinics,{" "}
-              <em className="not-italic text-coral">not around them</em>.
+              Validated in clinics,{" "}
+              <em className="not-italic text-coral">not just papers</em>.
             </>
           }
-          lede="Every model we ship is shaped by the clinicians, researchers, and governance partners who use it."
+          lede="Building a network of clinical and academic partnerships to validate, deploy, and scale AI-assisted psychiatric decision support across India and beyond."
         />
       </div>
 
       <Reveal className="mt-14">
-        <div className="group relative overflow-hidden border-y border-hairline py-7">
+        <div className="group relative overflow-hidden border-y border-hairline py-6">
           {reduced ? (
-            <div className="flex w-full flex-wrap items-center justify-center gap-x-12 gap-y-8 px-5">
-              {PARTNERS.map((partner) => (
-                <PartnerBadge key={partner.name} partner={partner} />
+            <div className="flex w-full flex-wrap items-center justify-center gap-x-12 gap-y-4 px-5">
+              {MARQUEE_NAMES.map((name) => (
+                <span
+                  key={name}
+                  className="font-display text-lg font-medium tracking-tight text-ink-soft"
+                >
+                  {name}
+                </span>
               ))}
             </div>
           ) : (
-            <div className="flex w-max shrink-0 animate-[marquee_38s_linear_infinite] items-center gap-14 pr-14 group-hover:[animation-play-state:paused]">
-              {row.map((partner, i) => (
-                <PartnerBadge key={`${partner.name}-${i}`} partner={partner} />
+            <div className="flex w-max animate-[marquee_30s_linear_infinite] items-center gap-14 pr-14 group-hover:[animation-play-state:paused]">
+              {row.map((name, i) => (
+                <span
+                  key={`${name}-${i}`}
+                  className="font-display text-lg font-medium whitespace-nowrap tracking-tight text-ink-soft"
+                >
+                  {name}
+                </span>
               ))}
             </div>
           )}
@@ -61,22 +66,57 @@ export function Partners() {
         </div>
       </Reveal>
 
-      <p className="mx-auto mt-6 max-w-6xl px-5 font-mono text-[11px] text-ink-soft sm:px-8">
-        Representative collaborators shown for this prototype.
-      </p>
-    </section>
-  );
-}
+      <div className="mx-auto mt-16 max-w-6xl px-5 sm:px-8">
+        <Reveal>
+          <h3 className="text-center font-display text-2xl font-medium tracking-tight sm:text-3xl">
+            Partnership categories
+          </h3>
+          <p className="mx-auto mt-3 max-w-xl text-center text-sm leading-relaxed text-ink-soft">
+            Each partner plays a distinct role in the clinical validation and
+            deployment pipeline.
+          </p>
+        </Reveal>
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
+          {partnerCategories.map((cat, i) => (
+            <Reveal key={cat.label} delay={i * 0.07} className="h-full">
+              <article className="flex h-full flex-col rounded-3xl border border-hairline bg-elevated p-6 shadow-card sm:p-7">
+                <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-coral">
+                  {cat.label}
+                </p>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-soft">
+                  {cat.description}
+                </p>
+                <ul className="mt-6 space-y-2.5 border-t border-hairline pt-5">
+                  {cat.partners.map((p) => (
+                    <li key={p.name} className="flex items-start justify-between gap-3">
+                      <span className="text-sm font-medium">{p.name}</span>
+                      <span className="shrink-0 font-mono text-[10px] text-ink-soft">
+                        {p.location}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </Reveal>
+          ))}
+        </div>
 
-function PartnerBadge({ partner }: { partner: (typeof PARTNERS)[number] }) {
-  return (
-    <div className="flex flex-col items-start gap-1 whitespace-nowrap">
-      <span className="font-display text-lg font-medium tracking-tight text-ink-soft transition-colors duration-300 hover:text-coral">
-        {partner.name}
-      </span>
-      <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-ink-soft opacity-70">
-        {partner.type}
-      </span>
-    </div>
+        <Reveal className="mt-14 text-center">
+          <h3 className="font-display text-2xl font-medium tracking-tight sm:text-3xl">
+            Interested in partnering?
+          </h3>
+          <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-ink-soft">
+            We are actively seeking clinical and academic collaborators to
+            expand our multicenter validation network.
+          </p>
+          <a
+            href="#contact"
+            className="mt-6 inline-flex items-center rounded-full bg-coral px-6 py-3 text-sm font-semibold text-white shadow-card transition-transform duration-300 hover:-translate-y-0.5"
+          >
+            Partner With Us
+          </a>
+        </Reveal>
+      </div>
+    </section>
   );
 }
