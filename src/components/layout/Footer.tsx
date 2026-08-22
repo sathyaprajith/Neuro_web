@@ -1,12 +1,14 @@
-import { NAV_ITEMS } from "./navItems";
+﻿import { NAV_ITEMS } from "./navItems";
 import { contactInfo } from "../../data/signals";
+import { Logo } from "../ui/Logo";
 
 export function Footer() {
   return (
     <footer className="border-t border-hairline bg-sunken">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-8 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <p className="font-display text-xl font-semibold tracking-tight">
+          <Logo className="h-12 w-auto" />
+          <p className="mt-3 font-display text-xl font-semibold tracking-tight">
             Neuro Paradigm<span className="text-coral">.</span>
           </p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink-soft">
@@ -85,3 +87,4 @@ export function Footer() {
     </footer>
   );
 }
+

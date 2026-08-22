@@ -11,7 +11,7 @@ export function Achievements() {
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader
-          eyebrow="Achievements"
+          eyebrow="02 · Achievements"
           title={
             <>
               A documented record,{" "}
@@ -21,42 +21,31 @@ export function Achievements() {
           lede="A documented record of our progress from research inception to active clinical deployment."
         />
 
-        <div className="relative mt-14">
-          <div
-            aria-hidden
-            className="absolute top-0 bottom-0 left-[7px] w-px bg-hairline md:left-1/2"
-          />
-          <ol className="space-y-10">
-            {achievements.map((item, i) => (
-              <li key={item.title}>
-                <Reveal
-                  delay={i * 0.06}
-                  className={`relative pl-8 md:w-1/2 md:pl-0 ${
-                    i % 2 === 0
-                      ? "md:pr-12 md:text-right"
-                      : "md:ml-auto md:pl-12"
-                  }`}
-                >
-                  <span
-                    aria-hidden
-                    className={`absolute top-1.5 left-0 h-4 w-4 rounded-full border-2 border-coral bg-base md:left-auto ${
-                      i % 2 === 0 ? "md:-right-2" : "md:-left-2"
-                    }`}
-                  />
-                  <p className="font-mono text-xs font-semibold tracking-widest uppercase text-coral">
-                    {item.date}
-                  </p>
-                  <h3 className="mt-2 font-display text-xl font-bold tracking-tight sm:text-2xl">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-                    {item.description}
-                  </p>
-                </Reveal>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <ol className="mt-16 border-t border-hairline">
+          {achievements.map((item) => (
+            <li
+              key={item.title}
+              className="group grid gap-5 border-b border-hairline py-12 md:grid-cols-[240px_1fr] md:gap-14 md:py-16"
+            >
+              <Reveal>
+                <p className="ach-year font-display text-6xl font-medium leading-none tracking-tight transition-transform duration-500 group-hover:-translate-y-1 md:text-8xl">
+                  {item.date}
+                </p>
+                <p className="mt-3 font-mono text-[10px] tracking-[0.28em] uppercase text-coral md:mt-4">
+                  Milestone
+                </p>
+              </Reveal>
+              <Reveal delay={0.08} className="md:pt-2">
+                <h3 className="max-w-2xl font-display text-2xl leading-snug font-semibold tracking-tight text-balance sm:text-3xl">
+                  {item.title}
+                </h3>
+                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink-soft sm:text-[15px]">
+                  {item.description}
+                </p>
+              </Reveal>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

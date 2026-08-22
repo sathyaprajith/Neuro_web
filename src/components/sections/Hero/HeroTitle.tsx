@@ -8,7 +8,7 @@ const container = {
   visible: {
     transition: {
       staggerChildren: 0.038,
-      delayChildren: 0.25,
+      delayChildren: 2.0,
     },
   },
 };

@@ -1,14 +1,17 @@
 ﻿import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "../ui/cn";
+import { Magnetic } from "../ui/Magnetic";
 import { MenuIcon, MoonIcon, SunIcon, CloseIcon } from "../ui/icons";
 import { useScrollSpy } from "../../hooks/useScrollSpy";
 import {
   usePrefersReducedMotion,
   scrollToSection,
+  scrollToTop,
 } from "../../hooks/usePrefersReducedMotion";
 import { useTheme } from "../../theme/useTheme";
 import { NAV_ITEMS } from "./navItems";
+import { Logo } from "../ui/Logo";
 
 export function Navbar() {
   const active = useScrollSpy(NAV_ITEMS.map((n) => n.id));
@@ -33,8 +36,7 @@ export function Navbar() {
   const goHome = (e: React.MouseEvent) => {
     e.preventDefault();
     setOpen(false);
-    if (reduced) window.scrollTo({ top: 0 });
-    else window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToTop(reduced);
   };
 
   return (
@@ -51,10 +53,13 @@ export function Navbar() {
         <a
           href="#home"
           onClick={goHome}
-          className="font-display text-lg font-semibold tracking-tight"
-          aria-label="Neuro Paradigm â€” back to top"
+          className="flex items-center gap-2.5"
+          aria-label="Neuro Paradigm — back to top"
         >
-          Neuro Paradigm<span className="text-coral">.</span>
+          <Logo className="h-8 w-auto sm:h-9" />
+          <span className="hidden font-display text-lg font-semibold tracking-tight sm:inline">
+            Neuro Paradigm<span className="text-coral">.</span>
+          </span>
         </a>
 
         <div className="hidden items-center gap-7 md:flex">
@@ -94,13 +99,15 @@ export function Navbar() {
               <MoonIcon className="h-4 w-4" />
             )}
           </button>
-          <a
-            href="#contact"
-            onClick={go("contact")}
-            className="hidden rounded-full bg-coral px-4.5 py-2 text-[13px] font-semibold text-white shadow-card transition-transform duration-300 hover:-translate-y-0.5 md:inline-block"
-          >
-            Get in touch
-          </a>
+          <Magnetic className="hidden md:inline-block">
+            <a
+              href="#contact"
+              onClick={go("contact")}
+              className="inline-block rounded-full bg-coral px-4.5 py-2 text-[13px] font-semibold text-white shadow-card transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              Get in touch
+            </a>
+          </Magnetic>
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
@@ -146,5 +153,6 @@ export function Navbar() {
     </header>
   );
 }
+
 
 

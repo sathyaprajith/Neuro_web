@@ -1,5 +1,7 @@
-import { SectionHeader } from "../../ui/SectionHeader";
+﻿import { SectionHeader } from "../../ui/SectionHeader";
 import { Reveal } from "../../ui/Reveal";
+import { TiltCard } from "../../ui/TiltCard";
+import { Magnetic } from "../../ui/Magnetic";
 import { usePrefersReducedMotion } from "../../../hooks/usePrefersReducedMotion";
 import { partnerCategories } from "../../../data/signals";
 
@@ -21,7 +23,7 @@ export function Partners() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader
           align="center"
-          eyebrow="Strategic Partners"
+          eyebrow="03 · Strategic Partners"
           title={
             <>
               Validated in clinics,{" "}
@@ -79,24 +81,26 @@ export function Partners() {
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {partnerCategories.map((cat, i) => (
             <Reveal key={cat.label} delay={i * 0.07} className="h-full">
-              <article className="flex h-full flex-col rounded-3xl border border-hairline bg-elevated p-6 shadow-card sm:p-7">
-                <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-coral">
-                  {cat.label}
-                </p>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-soft">
-                  {cat.description}
-                </p>
-                <ul className="mt-6 space-y-2.5 border-t border-hairline pt-5">
-                  {cat.partners.map((p) => (
-                    <li key={p.name} className="flex items-start justify-between gap-3">
-                      <span className="text-sm font-medium">{p.name}</span>
-                      <span className="shrink-0 font-mono text-[10px] text-ink-soft">
-                        {p.location}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
+              <TiltCard className="h-full" maxTilt={5}>
+                <article className="flex h-full flex-col rounded-3xl border border-hairline bg-elevated p-6 shadow-card sm:p-7">
+                  <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-coral">
+                    {cat.label}
+                  </p>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-soft">
+                    {cat.description}
+                  </p>
+                  <ul className="mt-6 space-y-2.5 border-t border-hairline pt-5">
+                    {cat.partners.map((p) => (
+                      <li key={p.name} className="flex items-start justify-between gap-3">
+                        <span className="text-sm font-medium">{p.name}</span>
+                        <span className="shrink-0 font-mono text-[10px] text-ink-soft">
+                          {p.location}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              </TiltCard>
             </Reveal>
           ))}
         </div>
@@ -109,14 +113,17 @@ export function Partners() {
             We are actively seeking clinical and academic collaborators to
             expand our multicenter validation network.
           </p>
-          <a
-            href="#contact"
-            className="mt-6 inline-flex items-center rounded-full bg-coral px-6 py-3 text-sm font-semibold text-white shadow-card transition-transform duration-300 hover:-translate-y-0.5"
-          >
-            Partner With Us
-          </a>
+          <Magnetic className="mt-6">
+            <a
+              href="#contact"
+              className="inline-flex items-center rounded-full bg-coral px-6 py-3 text-sm font-semibold text-white shadow-card transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              Partner With Us
+            </a>
+          </Magnetic>
         </Reveal>
       </div>
     </section>
   );
 }
+

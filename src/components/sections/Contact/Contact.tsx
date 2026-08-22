@@ -1,4 +1,4 @@
-import { SectionHeader } from "../../ui/SectionHeader";
+﻿import { SectionHeader } from "../../ui/SectionHeader";
 import { Reveal } from "../../ui/Reveal";
 import { ContactForm } from "./ContactForm";
 import { LocationMap } from "./LocationMap";
@@ -14,7 +14,7 @@ export function Contact() {
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader
-          eyebrow="Contact"
+          eyebrow="05 · Contact"
           title={
             <>
               Research collaborations, clinical partnerships,{" "}
@@ -77,3 +77,4 @@ export function Contact() {
     </section>
   );
 }
+

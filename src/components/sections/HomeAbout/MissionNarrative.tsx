@@ -1,5 +1,7 @@
 import { impactStats, missionQuote, philosophy } from "../../../data/signals";
 import { Reveal } from "../../ui/Reveal";
+import { WordReveal } from "../../ui/WordReveal";
+import { TiltCard } from "../../ui/TiltCard";
 
 export function MissionNarrative() {
   return (
@@ -10,13 +12,10 @@ export function MissionNarrative() {
             Instrumented intelligence{" "}
             <span className="text-coral">for psychiatry.</span>
           </p>
-          <p className="mt-7 text-base leading-relaxed text-ink-soft">
-            Neuro Paradigm is an AI-assisted clinical decision support platform
-            for psychiatry and neurodevelopmental care. We fuse structured
-            clinical signals across Behavioral, Biological, and Cognitive
-            dimensions — built to augment specialist-led evaluation, never to
-            replace it.
-          </p>
+          <WordReveal
+            className="mt-7 text-base leading-relaxed text-ink"
+            text="Neuro Paradigm is an AI-assisted clinical decision support platform for psychiatry and neurodevelopmental care. We fuse structured clinical signals across Behavioral, Biological, and Cognitive dimensions — built to augment specialist-led evaluation, never to replace it."
+          />
           <p className="mt-5 text-base leading-relaxed text-ink-soft">
             Neuropsychiatric disorders represent one of the largest unmet
             clinical challenges globally. The tools haven't kept pace with the
@@ -27,7 +26,7 @@ export function MissionNarrative() {
 
         <figure className="lg:pt-10">
           <blockquote className="border-l-2 border-coral pl-6 font-display text-lg italic leading-relaxed text-ink sm:text-xl">
-            “{missionQuote}”
+            <WordReveal text={missionQuote} />
           </blockquote>
         </figure>
       </div>
@@ -41,14 +40,19 @@ export function MissionNarrative() {
             The numbers behind why this work matters.
           </p>
         </Reveal>
-        <dl className="mt-12 grid gap-10 sm:grid-cols-3">
-          {impactStats.map((stat) => (
-            <Reveal key={stat.value} className="text-center">
-              <dd className="font-display text-5xl font-medium text-coral">
+        <dl className="mt-12 grid grid-cols-1 border-y border-hairline sm:grid-cols-3 sm:divide-x sm:divide-hairline">
+          {impactStats.map((stat, i) => (
+            <Reveal
+              key={stat.value}
+              delay={i * 0.08}
+              className={`px-7 py-12 ${i > 0 ? "border-t border-hairline sm:border-t-0" : ""}`}
+            >
+              <span aria-hidden className="mb-5 block h-2 w-2 bg-coral" />
+              <dd className="font-display text-5xl font-medium tracking-tight tabular-nums sm:text-6xl">
                 {stat.value}
               </dd>
-              <dt className="mt-3 text-sm font-medium">{stat.label}</dt>
-              <p className="mt-1 font-mono text-[11px] text-ink-soft">
+              <dt className="mt-4 text-sm leading-snug font-medium">{stat.label}</dt>
+              <p className="mt-2 font-mono text-[10px] tracking-[0.18em] uppercase text-ink-soft">
                 {stat.sublabel}
               </p>
             </Reveal>
@@ -64,15 +68,17 @@ export function MissionNarrative() {
         </Reveal>
         <div className="mt-8 grid gap-5 sm:grid-cols-2">
           {philosophy.map((item, i) => (
-            <Reveal key={item.title} delay={i * 0.07}>
-              <article className="h-full rounded-3xl border border-hairline bg-elevated p-6 shadow-card transition-colors duration-300 hover:border-coral/40 sm:p-7">
-                <h4 className="font-display text-lg font-semibold tracking-tight">
-                  {item.title}
-                </h4>
-                <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-                  {item.desc}
-                </p>
-              </article>
+            <Reveal key={item.title} delay={i * 0.07} className="h-full">
+              <TiltCard className="h-full">
+                <article className="h-full rounded-3xl border border-hairline bg-elevated p-6 shadow-card transition-colors duration-300 hover:border-coral/40 sm:p-7">
+                  <h4 className="font-display text-lg font-semibold tracking-tight">
+                    {item.title}
+                  </h4>
+                  <p className="mt-3 text-sm leading-relaxed text-ink-soft">
+                    {item.desc}
+                  </p>
+                </article>
+              </TiltCard>
             </Reveal>
           ))}
         </div>

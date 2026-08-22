@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import type { MotionValue } from "framer-motion";
 import Helix from "./Helix";
@@ -28,7 +28,7 @@ export default function HelixCanvas({ progress, reduced }: HelixCanvasProps) {
       <Canvas
         frameloop={active ? "always" : "never"}
         dpr={[1, Math.min(typeof window !== "undefined" ? window.devicePixelRatio : 1, 2)]}
-        camera={{ position: [0, 0, 7.6], fov: 42 }}
+        camera={{ position: [0, 0, 8], fov: 42 }}
         gl={{
           antialias: true,
           alpha: true,
@@ -36,12 +36,14 @@ export default function HelixCanvas({ progress, reduced }: HelixCanvasProps) {
         }}
         style={{ pointerEvents: "none", background: "transparent" }}
       >
-        <ambientLight intensity={0.75} />
-        <directionalLight position={[4, 6, 3]} intensity={1.25} />
-        <pointLight position={[-3.4, -0.8, 2.4]} intensity={22} distance={13} decay={2} color="#e8674a" />
-        <pointLight position={[3.4, 1.6, -2.4]} intensity={18} distance={13} decay={2} color="#5c8374" />
+        <ambientLight intensity={0.6} />
+        <directionalLight position={[5, 7, 4]} intensity={2.4} />
+        <directionalLight position={[-6, -2, -3]} intensity={0.7} color="#dfe8ff" />
+        <pointLight position={[-4, 5, -5]} intensity={16} distance={16} decay={2} color="#ffffff" />
+        <pointLight position={[-3, -2, 3]} intensity={8} distance={12} decay={2} color="#e8674a" />
         <Helix progress={progress} reduced={reduced} />
       </Canvas>
     </div>
   );
 }
+

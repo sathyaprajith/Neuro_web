@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { SectionHeader } from "../../ui/SectionHeader";
 import { Reveal } from "../../ui/Reveal";
 import { GalleryItem } from "./GalleryItem";
@@ -16,7 +16,7 @@ export function Gallery() {
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader
-          eyebrow="Gallery"
+          eyebrow="04 · Gallery"
           title={
             <>
               Field notes from{" "}
@@ -39,3 +39,4 @@ export function Gallery() {
     </section>
   );
 }
+

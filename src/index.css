@@ -68,10 +68,146 @@
   }
 }
 
+.ach-year {
+  color: transparent;
+  -webkit-text-stroke: 1.3px color-mix(in srgb, var(--ink-primary) 42%, transparent);
+}
+
+@supports not (-webkit-text-stroke: 1px black) {
+  .ach-year {
+    color: var(--ink-secondary);
+    opacity: 0.35;
+  }
+}
+
 @keyframes marquee {
   to {
     transform: translateX(-50%);
   }
+}
+
+.has-cursor .cursor-dot,
+.has-cursor .cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 95;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .has-cursor,
+  .has-cursor a,
+  .has-cursor button {
+    cursor: none;
+  }
+}
+
+.cursor-dot > span {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--coral);
+  transform: translate(-50%, -50%);
+}
+
+.cursor-ring > span {
+  display: block;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, var(--ink-primary) 38%, transparent);
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.28s,
+    background-color 0.28s;
+}
+
+.cursor-ring[data-active="true"] > span {
+  width: 58px;
+  height: 58px;
+  border-color: var(--coral);
+  background: var(--coral-soft);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}
+
+.has-cursor .cursor-dot,
+.has-cursor .cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 95;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .has-cursor,
+  .has-cursor a,
+  .has-cursor button,
+  .has-cursor [role="button"] {
+    cursor: none;
+  }
+}
+
+.cursor-dot > span {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--coral);
+  transform: translate(-50%, -50%);
+}
+
+.cursor-ring > span {
+  display: block;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, var(--ink-primary) 38%, transparent);
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.28s var(--ease-brand, cubic-bezier(0.22, 1, 0.36, 1)),
+    height 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.28s,
+    background-color 0.28s;
+}
+
+.cursor-ring[data-active="true"] > span {
+  width: 58px;
+  height: 58px;
+  border-color: var(--coral);
+  background: var(--coral-soft);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.038;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+}
+
+.dark body::after {
+  opacity: 0.06;
 }
 
 @media (prefers-reduced-motion: reduce) {

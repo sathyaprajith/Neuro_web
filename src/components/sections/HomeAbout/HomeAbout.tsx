@@ -1,4 +1,4 @@
-import { SectionHeader } from "../../ui/SectionHeader";
+﻿import { SectionHeader } from "../../ui/SectionHeader";
 import { Reveal } from "../../ui/Reveal";
 import { MissionNarrative } from "./MissionNarrative";
 import { BrainVideo } from "./BrainVideo";
@@ -12,7 +12,7 @@ export function HomeAbout() {
       className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32"
     >
       <SectionHeader
-        eyebrow="About Us"
+        eyebrow="01 · About Us"
         title={
           <>
             Three signal layers,{" "}
@@ -70,3 +70,4 @@ export function HomeAbout() {
     </section>
   );
 }
+

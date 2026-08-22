@@ -78,7 +78,7 @@ export function Hero() {
           aria-label="Scroll to the research story"
           initial={reduced ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.6, duration: 0.8 }}
+          transition={{ delay: 3.0, duration: 0.8 }}
         >
           <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-ink-soft">
             Scroll — meet the helix
