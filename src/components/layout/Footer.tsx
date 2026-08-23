@@ -45,7 +45,7 @@ export function Footer() {
           </div>
         </div>
         <nav aria-label="Footer">
-          <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-ink-soft">
+          <p className="font-mono text-xs tracking-[0.28em] uppercase text-ink-soft">
             Sections
           </p>
           <ul className="mt-4 space-y-2.5">
@@ -62,7 +62,7 @@ export function Footer() {
           </ul>
         </nav>
         <div>
-          <p className="font-mono text-[10px] tracking-[0.28em] uppercase text-ink-soft">
+          <p className="font-mono text-xs tracking-[0.28em] uppercase text-ink-soft">
             Contact
           </p>
           <ul className="mt-4 space-y-2.5 text-sm text-ink-soft">
@@ -87,4 +87,5 @@ export function Footer() {
     </footer>
   );
 }
+
 

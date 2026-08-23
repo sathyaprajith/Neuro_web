@@ -1,7 +1,7 @@
 ﻿import { SectionHeader } from "../../ui/SectionHeader";
 import { Reveal } from "../../ui/Reveal";
 import { ContactForm } from "./ContactForm";
-import { LocationMap } from "./LocationMap";
+import { GlobeMap } from "./GlobeMap";
 import { MailIcon } from "../../ui/icons";
 import { contactInfo } from "../../../data/signals";
 
@@ -10,7 +10,7 @@ export function Contact() {
     <section
       id="contact"
       aria-label="Contact"
-      className="relative py-24 sm:py-32"
+      className="relative py-16 sm:py-20"
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader
@@ -24,7 +24,7 @@ export function Contact() {
           lede="We'd love to connect."
         />
 
-        <div className="mt-14 grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="mt-8 grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
           <Reveal className="flex flex-col gap-8">
             <a
               href={`mailto:${contactInfo.email}`}
@@ -34,7 +34,7 @@ export function Contact() {
                 <MailIcon className="h-5 w-5" />
               </span>
               <span>
-                <span className="block font-mono text-[10px] tracking-[0.22em] uppercase text-ink-soft">
+                <span className="block font-mono text-xs tracking-[0.22em] uppercase text-ink-soft">
                   Email
                 </span>
                 <span className="block text-sm font-medium group-hover:text-coral">
@@ -65,7 +65,7 @@ export function Contact() {
             </div>
 
             <Reveal delay={0.06}>
-              <LocationMap />
+              <GlobeMap />
             </Reveal>
           </Reveal>
 
@@ -77,4 +77,6 @@ export function Contact() {
     </section>
   );
 }
+
+
 

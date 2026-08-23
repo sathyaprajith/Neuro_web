@@ -12,7 +12,7 @@ export function Gallery() {
     <section
       id="gallery"
       aria-label="Gallery"
-      className="relative bg-sunken py-24 sm:py-32"
+      className="relative bg-sunken py-16 sm:py-20"
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader
@@ -26,7 +26,7 @@ export function Gallery() {
           lede="A glimpse into our team, events, and the real-world impact of our research."
         />
 
-        <Reveal className="mt-14" delay={0.05}>
+        <Reveal className="mt-10" delay={0.05}>
           <div className="grid auto-rows-[180px] grid-cols-1 gap-4 sm:auto-rows-[200px] md:grid-cols-4">
             {GALLERY_ENTRIES.map((entry) => (
               <GalleryItem key={entry.id} entry={entry} onOpen={setSelected} />
@@ -39,4 +39,5 @@ export function Gallery() {
     </section>
   );
 }
+
 

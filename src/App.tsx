@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { ThemeProvider } from "./theme/ThemeProvider";
 import { useSmoothScroll } from "./hooks/useSmoothScroll";
 import { Navbar } from "./components/layout/Navbar";
@@ -11,9 +12,21 @@ import { Contact } from "./components/sections/Contact/Contact";
 import { Cursor } from "./components/ui/Cursor";
 import { ScrollProgress } from "./components/ui/ScrollProgress";
 import { Preloader } from "./components/ui/Preloader";
+import { StatementBand } from "./components/ui/StatementBand";
 
 export default function App() {
   useSmoothScroll(true);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("scrollto");
+    if (!id) return;
+    const t = window.setTimeout(() => {
+      document
+        .getElementById(id)
+        ?.scrollIntoView({ behavior: "instant", block: "start" });
+    }, 300);
+    return () => window.clearTimeout(t);
+  }, []);
 
   return (
     <ThemeProvider>
@@ -31,6 +44,10 @@ export default function App() {
         <Hero />
         <HomeAbout />
         <Achievements />
+        <StatementBand
+          eyebrow="Philosophy"
+          statement="Structured evidence. Human judgment. Augment — never replace."
+        />
         <Partners />
         <Gallery />
         <Contact />

@@ -9,7 +9,7 @@ export function HomeAbout() {
     <section
       id="about"
       aria-label="About Neuro Paradigm"
-      className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32"
+      className="relative mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20"
     >
       <SectionHeader
         eyebrow="01 · About Us"
@@ -22,13 +22,13 @@ export function HomeAbout() {
         lede="A multi-modal AI platform that fuses structured clinical signals across three complementary dimensions of neuropsychiatric evaluation — Behavioral, Biological, and Cognitive."
       />
 
-      <div className="mt-16">
+      <div className="mt-10">
         <MissionNarrative />
       </div>
 
-      <div className="mt-24 grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:items-center">
+      <div className="mt-14 grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:items-center">
         <Reveal>
-          <h3 className="font-display text-2xl font-medium tracking-tight sm:text-3xl">
+          <h3 className="font-display text-3xl sm:text-5xl lg:text-6xl font-medium tracking-tight">
             Many weak signals. One strong picture.
           </h3>
           <p className="mt-4 text-base leading-relaxed text-ink-soft">
@@ -49,12 +49,12 @@ export function HomeAbout() {
         </Reveal>
       </div>
 
-      <div className="mt-24">
+      <div className="mt-10">
         <Reveal>
-          <p className="font-mono text-[11px] tracking-[0.28em] uppercase text-coral">
+          <p className="font-mono text-sm tracking-[0.28em] uppercase text-coral">
             Signal layers
           </p>
-          <h3 className="mt-4 max-w-2xl font-display text-3xl font-medium tracking-tight text-balance sm:text-4xl">
+          <h3 className="mt-4 max-w-2xl font-display text-3xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-balance">
             Five research streams, one fused platform.
           </h3>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-soft">
@@ -70,4 +70,7 @@ export function HomeAbout() {
     </section>
   );
 }
+
+
+
 

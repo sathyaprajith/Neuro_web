@@ -10,7 +10,10 @@ export function Preloader() {
   const [done, setDone] = useState(reduced);
 
   useEffect(() => {
-    if (reduced) {
+    if (
+      reduced ||
+      new URLSearchParams(window.location.search).has("noloader")
+    ) {
       setDone(true);
       return;
     }

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+﻿import { useEffect, useRef } from "react";
 
 interface Node {
   x: number;
@@ -156,7 +156,7 @@ export function BrainVideo() {
     >
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-black/25 to-transparent p-5">
-        <span className="font-mono text-[10px] tracking-[0.24em] uppercase text-white/90">
+        <span className="font-mono text-xs tracking-[0.24em] uppercase text-white/90">
           Live signal-fusion sketch · prototype reel
         </span>
         <span className="flex items-center gap-1.5 font-mono text-[10px] tracking-widest uppercase text-white/90">
@@ -167,3 +167,4 @@ export function BrainVideo() {
     </div>
   );
 }
+

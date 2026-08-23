@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+﻿import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
 import { usePrefersReducedMotion } from "../../../hooks/usePrefersReducedMotion";
 import { CheckIcon } from "../../ui/icons";
@@ -98,7 +98,7 @@ export function ContactForm() {
       </div>
 
       <label className="mt-5 block">
-        <span className="mb-1.5 block font-mono text-[10px] tracking-[0.22em] uppercase text-ink-soft">
+        <span className="mb-1.5 block font-mono text-xs tracking-[0.22em] uppercase text-ink-soft">
           Affiliation
         </span>
         <select
@@ -115,7 +115,7 @@ export function ContactForm() {
       </label>
 
       <label className="mt-5 block">
-        <span className="mb-1.5 block font-mono text-[10px] tracking-[0.22em] uppercase text-ink-soft">
+        <span className="mb-1.5 block font-mono text-xs tracking-[0.22em] uppercase text-ink-soft">
           Message
         </span>
         <textarea
@@ -162,7 +162,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block font-mono text-[10px] tracking-[0.22em] uppercase text-ink-soft">
+      <span className="mb-1.5 block font-mono text-xs tracking-[0.22em] uppercase text-ink-soft">
         {label}
       </span>
       <input
@@ -178,3 +178,4 @@ function Field({
     </label>
   );
 }
+

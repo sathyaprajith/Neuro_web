@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { signals } from "../../../data/signals";
 import { usePrefersReducedMotion } from "../../../hooks/usePrefersReducedMotion";
@@ -42,7 +42,7 @@ export function SignalDetails() {
               </span>
               <span
                 className={cn(
-                  "font-display text-xl font-medium tracking-tight transition-colors duration-300 group-hover:text-coral sm:text-2xl",
+                  "font-display text-xl sm:text-2xl lg:text-3xl font-medium tracking-tight transition-colors duration-300 group-hover:text-coral",
                   open && "text-coral",
                 )}
               >
@@ -94,7 +94,7 @@ export function SignalDetails() {
                       </ul>
                     </div>
                     <div className="rounded-2xl border border-hairline bg-elevated p-5 shadow-card">
-                      <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-coral">
+                      <p className="font-mono text-xs tracking-[0.22em] uppercase text-coral">
                         Clinical focus
                       </p>
                       <p className="mt-2 font-display text-xl font-medium">{signal.focus}</p>
@@ -112,3 +112,4 @@ export function SignalDetails() {
     </div>
   );
 }
+

@@ -18,7 +18,7 @@ export function Partners() {
     <section
       id="partners"
       aria-label="Partners and collaborators"
-      className="relative overflow-hidden py-24 sm:py-32"
+      className="relative overflow-hidden py-16 sm:py-20"
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader
@@ -34,7 +34,7 @@ export function Partners() {
         />
       </div>
 
-      <Reveal className="mt-14">
+      <Reveal className="mt-10">
         <div className="group relative overflow-hidden border-y border-hairline py-6">
           {reduced ? (
             <div className="flex w-full flex-wrap items-center justify-center gap-x-12 gap-y-4 px-5">
@@ -68,9 +68,9 @@ export function Partners() {
         </div>
       </Reveal>
 
-      <div className="mx-auto mt-16 max-w-6xl px-5 sm:px-8">
+      <div className="mx-auto mt-8 max-w-6xl px-5 sm:px-8">
         <Reveal>
-          <h3 className="text-center font-display text-2xl font-medium tracking-tight sm:text-3xl">
+          <h3 className="text-center font-display text-3xl sm:text-5xl lg:text-6xl font-medium tracking-tight">
             Partnership categories
           </h3>
           <p className="mx-auto mt-3 max-w-xl text-center text-sm leading-relaxed text-ink-soft">
@@ -83,7 +83,7 @@ export function Partners() {
             <Reveal key={cat.label} delay={i * 0.07} className="h-full">
               <TiltCard className="h-full" maxTilt={5}>
                 <article className="flex h-full flex-col rounded-3xl border border-hairline bg-elevated p-6 shadow-card sm:p-7">
-                  <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-coral">
+                  <p className="font-mono text-xs tracking-[0.22em] uppercase text-coral">
                     {cat.label}
                   </p>
                   <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-soft">
@@ -105,8 +105,8 @@ export function Partners() {
           ))}
         </div>
 
-        <Reveal className="mt-14 text-center">
-          <h3 className="font-display text-2xl font-medium tracking-tight sm:text-3xl">
+        <Reveal className="mt-10 text-center">
+          <h3 className="font-display text-3xl sm:text-5xl lg:text-6xl font-medium tracking-tight">
             Interested in partnering?
           </h3>
           <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-ink-soft">
@@ -126,4 +126,9 @@ export function Partners() {
     </section>
   );
 }
+
+
+
+
+
 

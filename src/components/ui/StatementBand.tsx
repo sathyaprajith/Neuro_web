@@ -1,4 +1,4 @@
-import { WordReveal } from "./WordReveal";
+﻿import { WordReveal } from "./WordReveal";
 import { Reveal } from "./Reveal";
 
 interface StatementBandProps {
@@ -19,12 +19,12 @@ export function StatementBand({ eyebrow, statement }: StatementBandProps) {
       />
       <div className="relative mx-auto max-w-5xl px-5 py-28 text-center sm:px-8 sm:py-44">
         <Reveal>
-          <p className="font-mono text-[11px] tracking-[0.3em] uppercase text-coral">
+          <p className="font-mono text-sm tracking-[0.3em] uppercase text-coral">
             {eyebrow}
           </p>
         </Reveal>
         <WordReveal
-          className="mt-8 font-display text-[clamp(2.3rem,6vw,5rem)] leading-[1.04] font-medium tracking-[-0.02em] text-balance"
+          className="mt-8 font-display text-[clamp(2.3rem,6.5vw,5.6rem)] leading-[1.04] font-medium tracking-[-0.02em] text-balance"
           text={statement}
         />
         <Reveal delay={0.15}>
@@ -37,3 +37,4 @@ export function StatementBand({ eyebrow, statement }: StatementBandProps) {
     </section>
   );
 }
+
