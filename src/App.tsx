@@ -8,6 +8,7 @@ import { HomeAbout } from "./components/sections/HomeAbout/HomeAbout";
 import { Achievements } from "./components/sections/Achievements/Achievements";
 import { Partners } from "./components/sections/Partners/Partners";
 import { Gallery } from "./components/sections/Gallery/Gallery";
+import { Team } from "./components/sections/Team/Team";
 import { Contact } from "./components/sections/Contact/Contact";
 import { Cursor } from "./components/ui/Cursor";
 import { ScrollProgress } from "./components/ui/ScrollProgress";
@@ -50,6 +51,7 @@ export default function App() {
         />
         <Partners />
         <Gallery />
+        <Team />
         <Contact />
       </main>
       <Footer />
