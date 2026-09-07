@@ -14,7 +14,7 @@ export function Contact() {
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader
-          eyebrow="05 · Contact"
+          eyebrow="06 · Contact"
           title={
             <>
               Research collaborations, clinical partnerships,{" "}

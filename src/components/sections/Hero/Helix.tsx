@@ -14,6 +14,51 @@ const NODES = 126;
 const RUNG_STRIDE = 2;
 const PHASE_B = Math.PI * 0.78;
 
+// Brand-palette gradients painted along each strand (bottom → top).
+const STRAND_PALETTES = {
+  light: {
+    aBottom: "#e8674a",
+    aTop: "#3d2b3f",
+    bBottom: "#e8a23d",
+    bTop: "#5c8374",
+  },
+  dark: {
+    aBottom: "#f0805f",
+    aTop: "#6b4e6e",
+    bBottom: "#f0b860",
+    bTop: "#7ba894",
+  },
+} as const;
+
+/** Paints a vertical color gradient into a geometry's vertex colors. */
+function paintStrand(
+  geometry: THREE.BufferGeometry,
+  bottomHex: string,
+  topHex: string,
+) {
+  const pos = geometry.attributes.position;
+  const colors = new Float32Array(pos.count * 3);
+  let minY = Infinity;
+  let maxY = -Infinity;
+  for (let i = 0; i < pos.count; i++) {
+    const y = pos.getY(i);
+    if (y < minY) minY = y;
+    if (y > maxY) maxY = y;
+  }
+  const span = maxY - minY || 1;
+  const c = new THREE.Color();
+  const bottom = new THREE.Color(bottomHex);
+  const top = new THREE.Color(topHex);
+  for (let i = 0; i < pos.count; i++) {
+    const t = (pos.getY(i) - minY) / span;
+    c.copy(bottom).lerp(top, t);
+    colors[i * 3] = c.r;
+    colors[i * 3 + 1] = c.g;
+    colors[i * 3 + 2] = c.b;
+  }
+  geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+}
+
 interface BranchAnchor {
   signal: Signal;
   node: THREE.Vector3;
@@ -64,6 +109,7 @@ export default function Helix({ progress, reduced }: HelixProps) {
   const outer = useRef<THREE.Group>(null!);
   const pairsOne = useRef<THREE.InstancedMesh>(null!);
   const pairsTwo = useRef<THREE.InstancedMesh>(null!);
+  const beads = useRef<THREE.InstancedMesh>(null!);
 
   const idle = useRef(0);
   const appear = useRef(reduced ? 1 : 0.82);
@@ -71,9 +117,6 @@ export default function Helix({ progress, reduced }: HelixProps) {
   const rotX = useRef(0);
   const posY = useRef(0);
   const mouse = useRef({ x: 0, y: 0 });
-
-  const ivoryHex = dark ? "#f0805f" : "#e8674a";
-  const charHex = dark ? "#7ba894" : "#5c8374";
 
   const geo = useMemo(() => {
     const a: THREE.Vector3[] = [];
@@ -92,14 +135,16 @@ export default function Helix({ progress, reduced }: HelixProps) {
       rungIdx,
       tubeA: new THREE.TubeGeometry(new THREE.CatmullRomCurve3(a), 300, 0.075, 20, false),
       tubeB: new THREE.TubeGeometry(new THREE.CatmullRomCurve3(b), 300, 0.075, 20, false),
-      cylinder: new THREE.CylinderGeometry(0.021, 0.021, 1, 8, 1),
+      cylinder: new THREE.CylinderGeometry(0.034, 0.034, 1, 8, 1),
+      bead: new THREE.SphereGeometry(0.052, 12, 10),
     };
   }, []);
 
   const mats = useMemo(
     () => ({
       ivory: new THREE.MeshPhysicalMaterial({
-        color: "#e8674a",
+        color: "#ffffff",
+        vertexColors: true,
         roughness: 0.16,
         metalness: 0.05,
         clearcoat: 1,
@@ -107,47 +152,56 @@ export default function Helix({ progress, reduced }: HelixProps) {
         sheen: 0.5,
         sheenColor: new THREE.Color("#ffd9c9"),
         emissive: "#e8674a",
-        emissiveIntensity: 0.07,
+        emissiveIntensity: 0.1,
       }),
       charcoal: new THREE.MeshPhysicalMaterial({
-        color: "#5c8374",
+        color: "#ffffff",
+        vertexColors: true,
         roughness: 0.19,
         metalness: 0.06,
         clearcoat: 1,
         clearcoatRoughness: 0.16,
         sheen: 0.4,
-        sheenColor: new THREE.Color("#d8efe4"),
-        emissive: "#5c8374",
-        emissiveIntensity: 0.06,
+        sheenColor: new THREE.Color("#f4e3c2"),
+        emissive: "#e8a23d",
+        emissiveIntensity: 0.08,
       }),
       pairLight: new THREE.MeshStandardMaterial({
-        color: "#c05a3e",
+        color: "#a45248",
         roughness: 0.36,
         metalness: 0.06,
-        emissive: "#c05a3e",
+        emissive: "#a45248",
         emissiveIntensity: 0.08,
       }),
       pairDark: new THREE.MeshStandardMaterial({
-        color: "#48685c",
+        color: "#7d8563",
         roughness: 0.38,
         metalness: 0.07,
-        emissive: "#48685c",
+        emissive: "#7d8563",
         emissiveIntensity: 0.07,
+      }),
+      joint: new THREE.MeshStandardMaterial({
+        color: "#8a6f63",
+        roughness: 0.3,
+        metalness: 0.1,
+        emissive: "#8a6f63",
+        emissiveIntensity: 0.06,
       }),
     }),
     [],
   );
 
   useEffect(() => {
-    mats.ivory.color.set(ivoryHex);
-    mats.ivory.emissive.set(ivoryHex);
-    mats.charcoal.color.set(charHex);
-    mats.charcoal.emissive.set(charHex);
-    mats.pairLight.color.set(dark ? "#c2603f" : "#bb5238");
-    mats.pairLight.emissive.set(dark ? "#c2603f" : "#bb5238");
-    mats.pairDark.color.set(dark ? "#5f8272" : "#456157");
-    mats.pairDark.emissive.set(dark ? "#5f8272" : "#456157");
-  }, [ivoryHex, charHex, dark, mats]);
+    const pal = dark ? STRAND_PALETTES.dark : STRAND_PALETTES.light;
+    paintStrand(geo.tubeA, pal.aBottom, pal.aTop);
+    paintStrand(geo.tubeB, pal.bBottom, pal.bTop);
+    mats.pairLight.color.set(dark ? "#b06a58" : "#a45248");
+    mats.pairLight.emissive.set(dark ? "#b06a58" : "#a45248");
+    mats.pairDark.color.set(dark ? "#8ba184" : "#7d8563");
+    mats.pairDark.emissive.set(dark ? "#8ba184" : "#7d8563");
+    mats.joint.color.set(dark ? "#9c8676" : "#8a6f63");
+    mats.joint.emissive.set(dark ? "#9c8676" : "#8a6f63");
+  }, [dark, geo, mats]);
 
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
@@ -185,28 +239,39 @@ export default function Helix({ progress, reduced }: HelixProps) {
       const flip = k % 2 === 1;
       placeSegment(flip ? pairsTwo.current : pairsOne.current, k, pa, mid);
       placeSegment(flip ? pairsOne.current : pairsTwo.current, k, mid, pb);
+
+      dummy.quaternion.identity();
+      dummy.scale.setScalar(1);
+      dummy.position.copy(pa);
+      dummy.updateMatrix();
+      beads.current.setMatrixAt(k * 2, dummy.matrix);
+      dummy.position.copy(pb);
+      dummy.updateMatrix();
+      beads.current.setMatrixAt(k * 2 + 1, dummy.matrix);
     });
 
     pairsOne.current.instanceMatrix.needsUpdate = true;
     pairsTwo.current.instanceMatrix.needsUpdate = true;
-
-    if (!reduced) {
-      outer.current.rotation.z = -0.16;
-    }
+    beads.current.instanceMatrix.needsUpdate = true;
   }, [geo, reduced]);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     const p = reduced ? 0 : progress.get();
     idle.current += delta * (reduced ? 0.02 : 0.09);
 
     const targetY =
-      idle.current + p * Math.PI * 1.75 + (reduced ? 0 : mouse.current.x * 0.09);
+      idle.current + p * Math.PI * 2.4 + (reduced ? 0 : mouse.current.x * 0.09);
     rotY.current += (targetY - rotY.current) * Math.min(1, delta * 6);
     spin.current.rotation.y = rotY.current;
 
-    const targetX = reduced ? 0.04 : -mouse.current.y * 0.045 + 0.04;
+    const targetX = reduced ? 0.04 : -mouse.current.y * 0.045 + 0.04 - p * 0.06;
     rotX.current += (targetX - rotX.current) * Math.min(1, delta * 5);
     spin.current.rotation.x = rotX.current;
+
+    // Breathing tilt keeps the hold poses from feeling frozen.
+    outer.current.rotation.z = reduced
+      ? -0.16
+      : -0.16 + Math.sin(idle.current * 0.35) * 0.035 - p * 0.08;
 
     const targetPos = -p * 0.55;
     posY.current += (targetPos - posY.current) * Math.min(1, delta * 4);
@@ -214,6 +279,14 @@ export default function Helix({ progress, reduced }: HelixProps) {
 
     appear.current += (1 - appear.current) * Math.min(1, delta * 2.4);
     outer.current.scale.setScalar(appear.current);
+
+    // Scroll-coupled camera: slow dolly-in + counter-pan for parallax depth.
+    const cam = state.camera;
+    const targetZ = 8 - p * 0.85;
+    const targetCamY = p * 0.24;
+    const ease = Math.min(1, delta * 2.5);
+    cam.position.z += (targetZ - cam.position.z) * ease;
+    cam.position.y += (targetCamY - cam.position.y) * ease;
   });
 
   const branches = useMemo(buildBranchAnchors, []);
@@ -226,6 +299,7 @@ export default function Helix({ progress, reduced }: HelixProps) {
         <mesh geometry={geo.tubeB} material={mats.charcoal} />
         <instancedMesh ref={pairsOne} args={[geo.cylinder, mats.pairLight, rungCount]} />
         <instancedMesh ref={pairsTwo} args={[geo.cylinder, mats.pairDark, rungCount]} />
+        <instancedMesh ref={beads} args={[geo.bead, mats.joint, rungCount * 2]} />
         <Sparkles
           count={40}
           scale={[4.4, 6.8, 4.4]}
@@ -240,10 +314,10 @@ export default function Helix({ progress, reduced }: HelixProps) {
           size={1.2}
           speed={0.13}
           opacity={0.26}
-          color={dark ? "#7ba894" : "#5c8374"}
+          color={dark ? "#f0b860" : "#e8a23d"}
         />
         {branches.map((branch) => (
-          <HelixBranch key={branch.signal.id} branch={branch} />
+          <HelixBranch key={branch.signal.id} branch={branch} reduced={reduced} />
         ))}
       </group>
     </group>
