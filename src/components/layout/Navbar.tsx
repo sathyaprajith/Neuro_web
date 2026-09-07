@@ -87,6 +87,15 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-2.5">
+          {/* Deliberately not in NAV_ITEMS: that list drives the scroll spy, and
+              this is a real navigation off the page rather than a section on it.
+              /app is the internal tracker, served from this same origin. */}
+          <a
+            href="/app/login"
+            className="hidden text-[13px] font-medium text-ink-soft transition-colors duration-300 hover:text-ink md:inline-block"
+          >
+            Team login
+          </a>
           <button
             type="button"
             onClick={toggle}
@@ -146,6 +155,16 @@ export function Navbar() {
                   </a>
                 </li>
               ))}
+              {/* Off-page link, so no go() and no preventDefault: it navigates. */}
+              <li>
+                <a
+                  href="/app/login"
+                  onClick={() => setOpen(false)}
+                  className="mt-1 block border-t border-hairline px-3 pb-2.5 pt-3.5 text-sm font-medium text-ink-soft hover:text-ink"
+                >
+                  Team login
+                </a>
+              </li>
             </ul>
           </motion.div>
         )}
