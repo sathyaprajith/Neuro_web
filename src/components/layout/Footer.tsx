@@ -60,6 +60,20 @@ export function Footer() {
               </li>
             ))}
           </ul>
+          {/* The internal tracker, served from this same origin under /app. Kept
+              out of NAV_ITEMS because that list is sections of this page and also
+              feeds the navbar's scroll spy. */}
+          <div className="mt-4 border-t border-hairline pt-4">
+            <a
+              href="/app/login"
+              className="text-sm text-ink-soft transition-colors hover:text-coral"
+            >
+              Team login
+            </a>
+            <p className="mt-1.5 text-xs leading-relaxed text-ink-soft/70">
+              Staff progress tracker. Accounts are created by the admin.
+            </p>
+          </div>
         </nav>
         <div>
           <p className="font-mono text-xs tracking-[0.28em] uppercase text-ink-soft">
