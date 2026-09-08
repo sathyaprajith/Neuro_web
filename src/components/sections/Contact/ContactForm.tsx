@@ -1,4 +1,4 @@
-﻿import { useState, type FormEvent } from "react";
+﻿import { useRef, useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
 import { usePrefersReducedMotion } from "../../../hooks/usePrefersReducedMotion";
 import { CheckIcon } from "../../ui/icons";
@@ -16,20 +16,24 @@ const AFFILIATIONS = [
 interface Errors {
   name?: string;
   email?: string;
+  subject?: string;
   message?: string;
 }
 
 export function ContactForm() {
   const reduced = usePrefersReducedMotion();
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errors, setErrors] = useState<Errors>({});
+  const [serverError, setServerError] = useState("");
+  const summaryRef = useRef<HTMLDivElement>(null);
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
     const name = String(data.get("name") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
+    const subject = String(data.get("subject") ?? "").trim();
     const message = String(data.get("message") ?? "").trim();
     const company = String(data.get("company") ?? "");
 
@@ -37,18 +41,40 @@ export function ContactForm() {
 
     const next: Errors = {};
     if (name.length < 2) next.name = "Name must be at least 2 characters.";
+    else if (name.length > 120) next.name = "Name must be 120 characters or fewer.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       next.email = "Please enter a valid email address.";
+    else if (email.length > 254) next.email = "Email must be 254 characters or fewer.";
+    if (!subject) next.subject = "Subject is required.";
+    else if (subject.length > 180) next.subject = "Subject must be 180 characters or fewer.";
     if (message.length < 10)
       next.message = "Message must be at least 10 characters.";
+    else if (message.length > 2000) next.message = "Message must be 2000 characters or fewer.";
     setErrors(next);
-    if (Object.keys(next).length > 0) return;
+    setServerError("");
+    if (Object.keys(next).length > 0) {
+      window.requestAnimationFrame(() => summaryRef.current?.focus());
+      return;
+    }
 
     setStatus("sending");
-    window.setTimeout(() => {
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, subject, message, affiliation: data.get("affiliation") }),
+      });
+      const result = (await response.json().catch(() => ({}))) as { message?: string; errors?: Errors };
+      if (!response.ok) {
+        if (result.errors) setErrors(result.errors);
+        throw new Error(result.message || "Unable to send your message right now.");
+      }
       setStatus("sent");
       form.reset();
-    }, reduced ? 200 : 1100);
+    } catch (error) {
+      setStatus("error");
+      setServerError(error instanceof Error ? error.message : "Unable to send your message right now.");
+    }
   };
 
   if (status === "sent") {
@@ -85,10 +111,24 @@ export function ContactForm() {
       noValidate
       className="rounded-3xl border border-hairline bg-elevated p-7 shadow-card sm:p-8"
     >
+      <div
+        ref={summaryRef}
+        tabIndex={-1}
+        role="status"
+        aria-live="polite"
+        className="mb-5 rounded-xl border border-coral/40 bg-coral-soft px-4 py-3 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-coral"
+        hidden={Object.keys(errors).length === 0 && !serverError}
+      >
+        <p className="font-medium">Please review the highlighted fields.</p>
+        {serverError ? <p className="mt-1">{serverError}</p> : null}
+      </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Full name" name="name" error={errors.name} />
         <Field label="Email address" name="email" type="email" error={errors.email} />
       </div>
+
+      <Field label="Subject" name="subject" maxLength={180} error={errors.subject} />
 
       <div className="mt-5 hidden" aria-hidden="true">
         <label>
@@ -121,11 +161,14 @@ export function ContactForm() {
         <textarea
           name="message"
           rows={4}
+          maxLength={2000}
+          aria-invalid={errors.message ? "true" : undefined}
+          aria-describedby={errors.message ? "message-error" : undefined}
           placeholder="Tell us about your research interests, partnership inquiry, or anything else..."
           className="w-full resize-none rounded-xl border border-hairline bg-base px-4 py-3 text-sm outline-none transition-colors placeholder:text-ink-soft/50 focus:border-coral"
         />
         {errors.message && (
-          <span role="alert" className="mt-1 block text-xs text-coral">
+          <span id="message-error" role="alert" className="mt-1 block text-xs text-coral">
             {errors.message}
           </span>
         )}
@@ -153,11 +196,13 @@ function Field({
   label,
   name,
   type = "text",
+  maxLength,
   error,
 }: {
   label: string;
   name: string;
   type?: string;
+  maxLength?: number;
   error?: string;
 }) {
   return (
@@ -168,10 +213,13 @@ function Field({
       <input
         type={type}
         name={name}
+        maxLength={maxLength ?? (name === "name" ? 120 : 254)}
+        aria-invalid={error ? "true" : undefined}
+        aria-describedby={error ? `${name}-error` : undefined}
         className="w-full rounded-xl border border-hairline bg-base px-4 py-3 text-sm outline-none transition-colors focus:border-coral"
       />
       {error && (
-        <span role="alert" className="mt-1 block text-xs text-coral">
+        <span id={`${name}-error`} role="alert" className="mt-1 block text-xs text-coral">
           {error}
         </span>
       )}

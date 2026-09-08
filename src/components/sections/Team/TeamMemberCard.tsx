@@ -67,7 +67,7 @@ export function TeamMemberCard({
   return (
     <TiltCard className={cn("h-full", className)} maxTilt={leader ? 4.5 : 8}>
       <article
-        aria-label={`${member.name}, ${member.role}`}
+        aria-label={member.role ? `${member.name}, ${member.role}` : member.name}
         className={cn(
           "group relative h-full overflow-hidden rounded-[1.75rem] border border-hairline bg-elevated shadow-card",
           leader && "rounded-[2rem]",
@@ -115,12 +115,12 @@ export function TeamMemberCard({
               "md:group-hover:pointer-events-auto md:group-hover:translate-y-0 md:group-hover:opacity-100",
             )}
           >
-            <SocialChip href={member.linkedin} label={`${member.name} on LinkedIn`} large={leader}>
+            {member.linkedin ? <SocialChip href={member.linkedin} label={`${member.name} on LinkedIn`} large={leader}>
               <LinkedInIcon className="h-5 w-5" />
-            </SocialChip>
-            <SocialChip href={member.github} label={`${member.name} on GitHub`} large={leader}>
+            </SocialChip> : null}
+            {member.github ? <SocialChip href={member.github} label={`${member.name} on GitHub`} large={leader}>
               <GitHubIcon className="h-5 w-5" />
-            </SocialChip>
+            </SocialChip> : null}
           </div>
         </div>
 
@@ -134,14 +134,19 @@ export function TeamMemberCard({
           >
             {member.name}
           </h3>
-          <p
+          {member.role ? <p
             className={cn(
               "mt-1.5 truncate font-mono uppercase tracking-[0.18em] text-ink-soft",
               leader ? "text-sm" : "text-[11px] sm:text-xs",
             )}
           >
             {member.role}
-          </p>
+          </p> : null}
+          {member.bio ? (
+            <p className={cn("mt-3 leading-relaxed text-ink-soft", leader ? "text-sm" : "text-xs")}>
+              {member.bio}
+            </p>
+          ) : null}
         </div>
       </article>
     </TiltCard>

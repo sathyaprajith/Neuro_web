@@ -18,6 +18,18 @@ npm install
 npm run dev       # http://localhost:5173
 ```
 
+The contact form uses the Express API, so run it in a second terminal during
+development:
+
+```bash
+npm run dev:api   # http://localhost:4300
+```
+
+Before submitting the form, copy `.env.example` to `.env` and replace the
+SMTP placeholder values with credentials from your email provider. Set
+`CONTACT_EMAIL` to the inbox that should receive enquiries and `FROM_EMAIL` to
+an address permitted by that provider. Never commit `.env`.
+
 ## Scripts
 
 | Command           | Purpose                        |
@@ -26,6 +38,8 @@ npm run dev       # http://localhost:5173
 | `npm run build`   | Typecheck + production build   |
 | `npm run preview` | Serve the production build     |
 | `npm run typecheck` | TypeScript only              |
+| `npm run dev:api` | Run the contact API locally |
+| `npm run start:api` | Run the contact API for deployment |
 
 ## Structure
 
